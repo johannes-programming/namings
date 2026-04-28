@@ -1,0 +1,70 @@
+Overview
+--------
+
+This project provides a new family of mappings that only allow strings as keys.
+
+Installation
+------------
+
+To install ``namings``, you can use ``pip``. Open your terminal and run:
+
+.. code-block:: shell
+
+    pip install namings
+
+Features
+--------
+
+``class namings.BaseNaming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This abstract base class is a common ancestor of ``FrozenNaming`` and ``Naming``.
+
+``class namings.FrozenNaming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This immutable class is a type of mappings
+
+- that only uses strings as keys
+- and that acts similarly to a sequence of its items.
+
+``class namings.Naming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This mutable class is a type of mappings
+
+- that only uses strings as keys
+- and that acts similarly to a sequence of its items.
+
+``namings.tests.test()``
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This project can be tested through its ``test`` function.
+
+.. code-block:: python
+
+    import namings.tests
+    namings.tests.test()
+
+License
+-------
+
+This project is licensed under the MIT License.
+
+Links
+-----
+
+- Download: https://pypi.org/project/namings/#files
+- Index: https://pypi.org/project/namings/
+- Source: https://github.com/johannes-programming/namings/
+- Website: https://namings.johannes-programming.online/
+
+Impressum
+---------
+
+**Johannes Programming**
+
+- Name: Johannes
+- Email: johannes.programming@gmail.com
+- Homepage: https://www.johannes-programming.online/
+- Gravatar: https://www.johannes-programming.fyi/
