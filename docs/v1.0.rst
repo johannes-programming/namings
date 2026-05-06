@@ -1,7 +1,7 @@
 Overview
 --------
 
-This project provides a new family of mappings that only allow strings as keys.
+This project provides a new family of collections.
 
 Installation
 ------------
@@ -23,7 +23,7 @@ This abstract base class is a common ancestor of ``FrozenNaming`` and ``Naming``
 ``class namings.FrozenNaming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This immutable class is a type of mappings
+This immutable class is a type of collection
 
 - that only uses strings as keys
 - and that acts similarly to a sequence of its items.
@@ -31,7 +31,7 @@ This immutable class is a type of mappings
 ``class namings.Naming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This mutable class is a type of mappings
+This mutable class is a type of collection
 
 - that only uses strings as keys
 - and that acts similarly to a sequence of its items.

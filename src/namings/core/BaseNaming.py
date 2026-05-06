@@ -10,7 +10,7 @@ __all__ = ["BaseNaming"]
 Value = TypeVar("Value")
 
 
-class BaseNaming(collections.abc.Mapping[str, Value]):
+class BaseNaming(collections.abc.Collection):
     __slots__ = ()
 
     @setdoc.basic

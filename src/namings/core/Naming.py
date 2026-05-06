@@ -14,7 +14,7 @@ MISSING = object()
 Value = TypeVar("Value")
 
 
-class Naming(BaseNaming[Value], Copyable, collections.abc.MutableMapping[str, Value]):
+class Naming(BaseNaming[Value], Copyable):
     __slots__ = ("_items", "_keys", "_mapping", "_repr", "_values")
 
     @setdoc.basic
