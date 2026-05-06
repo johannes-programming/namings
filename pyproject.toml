@@ -21,15 +21,14 @@ classifiers = [
 dependencies = [
     "copyable>=1.0,<2",
     "datarepr>=1.1,<2",
-    "iterflat>=1.0,<2",
-    "setdoc>=1.2.12,<2",
+    "setdoc>=1.2.16,<2",
 ]
 description = "This project provides a new family of mappings that only allow strings as keys."
 keywords = []
 name = "namings"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.5+local.3"
+version = "1.0.5+local.4"
 
 [project.license]
 file = "LICENSE.txt"
