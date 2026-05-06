@@ -1,4 +1,3 @@
-import collections.abc
 from typing import *
 
 import setdoc
@@ -67,9 +66,7 @@ class Naming(BaseNaming[Value], Copyable):
 
     @setdoc.basic
     def __repr__(self: Self) -> str:
-        if self._repr is None:
-            self._repr = datarepr(type(self).__name__, self._mapping)
-        return self._repr
+        return datarepr(type(self).__name__, self._mapping)
 
     @setdoc.basic
     def __setitem__(self: Self, key: Any, value: Any) -> Any:
@@ -103,7 +100,7 @@ class Naming(BaseNaming[Value], Copyable):
     def pop(self: Self, key: Any, /) -> Value: ...
 
     @overload
-    def pop(self: Self, key: Any, default: Any, /) -> Value: ...
+    def pop(self: Self, key: Any, default: Any, /) -> Any: ...
 
     def pop(self: Self, key: Any, default: Any = MISSING, /) -> Value:
         try:

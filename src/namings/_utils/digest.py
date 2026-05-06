@@ -8,17 +8,14 @@ MISSING = object()
 def digest_data(data: Any, /) -> dict[str, Any]:
     ans: dict
     keys: Any
+    x: Any
+    y: Any
     ans = dict()
-    keys = getattr(data, "keys", MISSING)
-    if keys is not MISSING:
-        for x in keys():
-            ans[str(x)] = data[x]
-        return ans
     keys = getattr(type(data), "keys", MISSING)
-    if keys is not MISSING:
+    if keys is MISSING:
+        for x, y in data:
+            ans[str(x)] = y
+    else:
         for x in keys(data):
             ans[str(x)] = data[x]
-        return ans
-    for x, y in data:
-        ans[str(x)] = y
     return ans

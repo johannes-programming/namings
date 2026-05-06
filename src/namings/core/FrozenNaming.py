@@ -13,7 +13,7 @@ Value = TypeVar("Value")
 
 
 class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
-    __slots__ = ("_items", "_keys", "_mapping", "_repr", "_values")
+    __slots__ = ("_items", "_keys", "_mapping", "_values")
 
     @setdoc.basic
     def __copy__(self: Self) -> Self:
@@ -37,7 +37,6 @@ class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
         self._items = None
         self._keys = None
         self._mapping = MappingProxyType(dict_)
-        self._repr = datarepr(type(self).__name__, dict_)
         self._values = None
 
     @setdoc.basic
@@ -55,4 +54,4 @@ class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
 
     @setdoc.basic
     def __repr__(self: Self) -> str:
-        return self._repr
+        return datarepr(type(self).__name__, dict(self._mapping))
