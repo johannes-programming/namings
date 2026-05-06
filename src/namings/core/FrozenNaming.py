@@ -53,13 +53,12 @@ class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
     @setdoc.basic
     def __or__(self: Self, other: Any) -> Self:
         ans: Self
-        mapping: dict
-        mapping = self._mapping | digest_data(other)
+        dict_: dict
+        dict_ = self._mapping | digest_data(other)
         ans = object.__new__(type(self))
-        ans._mapping = MappingProxyType(mapping)
-        ans._repr = datarepr(type(self).__name__, mapping)
         ans._items = None
         ans._keys = None
+        ans._mapping = MappingProxyType(dict_)
         ans._values = None
         return ans
 
