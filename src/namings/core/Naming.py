@@ -123,7 +123,7 @@ class Naming(BaseNaming[Value], Copyable, collections.abc.MutableMapping[str, Va
         finally:
             self._reset()
 
-    def update(self: Self, data: Any, /, **kwargs: Any) -> None:
+    def update(self: Self, data: Any = (), /, **kwargs: Any) -> None:
         "This method updates the key-value-pairs."
         x: Any
         y: Any
