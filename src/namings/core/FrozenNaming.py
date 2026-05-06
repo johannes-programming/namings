@@ -21,16 +21,6 @@ class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
         return self
 
     @setdoc.basic
-    def __deepcopy__(self: Self, memo: dict[int, Any]) -> Self:
-        ans: Self
-        ans = object.__new__(type(self))
-        ans._items = None
-        ans._keys = None
-        ans._mapping = copy.deepcopy(self._mapping, memo)
-        ans._values = None
-        return ans
-
-    @setdoc.basic
     def __hash__(self: Self) -> int:
         return hash(self.items())
 
