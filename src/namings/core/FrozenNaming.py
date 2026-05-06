@@ -16,6 +16,10 @@ class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
     __slots__ = ("_items", "_keys", "_mapping", "_repr", "_values")
 
     @setdoc.basic
+    def __copy__(self: Self) -> Self:
+        return self
+
+    @setdoc.basic
     def __hash__(self: Self) -> int:
         return hash(self.items())
 

@@ -18,6 +18,10 @@ class Naming(BaseNaming[Value], Copyable, collections.abc.MutableMapping[str, Va
     __slots__ = ("_items", "_keys", "_mapping", "_repr", "_values")
 
     @setdoc.basic
+    def __copy__(self: Self) -> Self:
+        return self.copy()
+
+    @setdoc.basic
     def __delitem__(self: Self, key: Any) -> None:
         try:
             del self._mapping[str(key)]

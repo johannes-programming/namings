@@ -17,6 +17,10 @@ class BaseNaming(collections.abc.Mapping[str, Value]):
     def __contains__(self: Self, other: Any) -> bool:
         return other in self.items()
 
+    @abstractmethod
+    @setdoc.basic
+    def __copy__(self: Self) -> Self: ...
+
     @setdoc.basic
     def __eq__(self: Self, other: Any) -> bool:
         return type(self) is type(other) and self.items() == other.items()
