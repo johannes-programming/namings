@@ -10,7 +10,6 @@ authors = [
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
@@ -25,13 +24,14 @@ dependencies = [
 ]
 description = "This project provides a new family of mappings that only allow strings as keys."
 keywords = []
+license = "MIT"
+license-files = [
+    "LICENSE.txt",
+]
 name = "namings"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.5+local.4"
-
-[project.license]
-file = "LICENSE.txt"
+version = "1.0.5+local.6"
 
 [project.urls]
 Download = "https://pypi.org/project/namings/#files"
