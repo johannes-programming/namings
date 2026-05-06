@@ -1,11 +1,11 @@
 import collections.abc
-from itertools import repeat
 from typing import *
 
 import setdoc
 from copyable import Copyable
 from datarepr import datarepr
 
+from namings._utils.digest import digest_data
 from namings.core.BaseNaming import BaseNaming
 
 __all__ = ["Naming"]
@@ -14,112 +14,86 @@ MISSING = object()
 Value = TypeVar("Value")
 
 
-class Naming(BaseNaming[Value], Copyable, collections.abc.MutableMapping[Value]):
-    __slots__ = ("_dict",)
-
-    @setdoc.basic
-    def __contains__(self: Self, other: Any) -> bool:
-        x: Any
-        y: Any
-        try:
-            x, y = other
-            return (str(x), y) in self._dict.items()
-        except Exception:
-            return False
+class Naming(BaseNaming[Value], Copyable, collections.abc.MutableMapping[str, Value]):
+    __slots__ = ("_items", "_keys", "_mapping", "_repr", "_values")
 
     @setdoc.basic
     def __delitem__(self: Self, key: Any) -> None:
         try:
-            del self._dict[str(key)]
-        except KeyError:
-            raise KeyError("Key %r unknown." % key)
-
-    @setdoc.basic
-    def __eq__(self: Self, other: Any) -> bool:
-        return type(self) is type(other) and tuple(self._dict.items()) == tuple(
-            other._dict.items()
-        )
-
-    @setdoc.basic
-    def __getitem__(self: Self, key: Any) -> Any:
-        x: str
-        x = str(key)
-        try:
-            return self._dict[x]
+            del self._mapping[str(key)]
         except KeyError:
             raise KeyError("Key %r unknown." % key) from None
+        finally:
+            self._reset()
 
     __hash__ = None
 
     @setdoc.basic
     def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None:
-        a: dict
         x: Any
         y: Any
-        self._dict = dict()
-        a = dict(data, **kwargs)
-        for x, y in a.items():
-            self._dict[str(x)] = y
+        self._reset()
+        if isinstance(data, BaseNaming):
+            self._mapping = dict(data._mapping)
+        else:
+            self._mapping = digest_data(data)
+        for x, y in kwargs.items():
+            self._mapping[str(x)] = y
 
     @setdoc.basic
-    def __ior__(self: Self, other: Iterable) -> Self:
-        a: dict
-        x: Any
-        y: Any
-        a = dict(other)
-        for x, y in a.items():
-            self._dict[str(x)] = y
-        return self
-
-    @setdoc.basic
-    def __iter__(self: Self) -> Iterable[tuple[str, Value]]:
-        yield from self._dict.items()
-
-    @setdoc.basic
-    def __len__(self: Self) -> int:
-        return len(self._dict)
-
-    __ne__ = object.__ne__
+    def __ior__(self: Self, other: Any) -> Self:
+        try:
+            if isinstance(other, BaseNaming):
+                self._mapping |= other._mapping
+            else:
+                self._mapping |= digest_data(other)
+            return self
+        finally:
+            self._reset()
 
     @setdoc.basic
     def __or__(self: Self, other: Any) -> Self:
-        return type(self)(self._dict | dict(other))
+        ans: Self
+        ans = self.copy()
+        if isinstance(other, BaseNaming):
+            ans._mapping |= other._mapping
+        else:
+            ans._mapping |= digest_data(other)
+        return ans
 
     @setdoc.basic
     def __repr__(self: Self) -> str:
-        return datarepr(type(self).__name__, self._dict)
-
-    @setdoc.basic
-    def __reversed__(self: Self) -> Iterator[tuple[str, Value]]:
-        yield from reversed(self._dict.items())
+        if self._repr is None:
+            self._repr = datarepr(type(self).__name__, self._mapping)
+        return self._repr
 
     @setdoc.basic
     def __setitem__(self: Self, key: Any, value: Any) -> Any:
-        self._dict[str(key)] = value
+        try:
+            self._mapping[str(key)] = value
+        finally:
+            self._reset()
+
+    def _reset(self: Self) -> None:
+        self._items = None
+        self._keys = None
+        self._repr = None
+        self._values = None
 
     def clear(self: Self) -> None:
         "This method discards all key-value-pairs."
-        self._dict.clear()
+        try:
+            self._mapping.clear()
+        finally:
+            self._reset()
 
     @setdoc.basic
     def copy(self: Self) -> Self:
-        return type(self)(self)
-
-    @classmethod
-    def fromkeys(cls: type[Self], keys: Iterable, value: Value = None, /) -> Self:
-        return cls(zip(map(str, keys), repeat(value)))
-
-    def get(self: Self, key: Any, default: Any = None, /) -> Value:
-        "This method returns the value for an existing key or default for a not existing key."
-        return self._dict.get(str(key), default)
-
-    def items(self: Self) -> Iterator[tuple[str, Value]]:
-        "This method returns an iterable of the key-value-pairs."
-        yield from self._dict.items()
-
-    def keys(self: Self) -> Iterator[str]:
-        "This method returns an iterable of the keys."
-        yield from self._dict.keys()
+        ans: Self
+        ans = object.__new__(type(self))
+        ans._reset()
+        ans._mapping = self._mapping.copy()
+        return ans
 
     @overload
     def pop(self: Self, key: Any, /) -> Value: ...
@@ -128,27 +102,37 @@ class Naming(BaseNaming[Value], Copyable, collections.abc.MutableMapping[Value])
     def pop(self: Self, key: Any, default: Any, /) -> Value: ...
 
     def pop(self: Self, key: Any, default: Any = MISSING, /) -> Value:
-        if default is MISSING:
-            return self._dict.pop(str(key))
-        else:
-            return self._dict.pop(str(key), default)
+        try:
+            if default is MISSING:
+                return self._mapping.pop(str(key))
+            else:
+                return self._mapping.pop(str(key), default)
+        finally:
+            self._reset()
 
     def popitem(self: Self) -> tuple[str, Value]:
         "This method deletes and returns the last key-value-pair."
-        return self._dict.popitem()
+        try:
+            return self._mapping.popitem()
+        finally:
+            self._reset()
 
-    def setdefault(self: Self, key: Any, default: Value = None) -> Value:
-        return self._dict.setdefault(str(key), default)
+    def setdefault(self: Self, key: Any, default: Value = None, /) -> Value:
+        try:
+            return self._mapping.setdefault(str(key), default)
+        finally:
+            self._reset()
 
     def update(self: Self, data: Any, /, **kwargs: Any) -> None:
         "This method updates the key-value-pairs."
-        a: dict
         x: Any
         y: Any
-        a = dict(data, **kwargs)
-        for x, y in a.items():
-            self._dict[str(x)] = y
-
-    def values(self: Self) -> Iterator[Value]:
-        "This method returns an iterable of the values."
-        yield from self._dict.values()
+        try:
+            if isinstance(data, BaseNaming):
+                self._mapping |= data._mapping
+            else:
+                self._mapping |= digest_data(data)
+            for x, y in kwargs.items():
+                self._mapping[str(x)] = y
+        finally:
+            self._reset()

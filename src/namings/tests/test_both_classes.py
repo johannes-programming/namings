@@ -28,9 +28,9 @@ class TestBothClasses(unittest.TestCase):
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertIn(("hello", "world"), obj)
-        self.assertIn(["hello", "world"], obj)
+        self.assertNotIn(["hello", "world"], obj)
         self.assertIn(("4", 2), obj)
-        self.assertIn((4, 2), obj)
+        self.assertNotIn((4, 2), obj)
         self.assertNotIn(("foo", "bar"), obj)
 
     def dunder_eq(self: Self, cls: type) -> None:

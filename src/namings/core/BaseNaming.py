@@ -1,8 +1,11 @@
 import collections.abc
 from abc import abstractmethod
+from itertools import repeat
 from typing import *
 
 import setdoc
+
+from namings._utils.digest import digest_data
 
 __all__ = ["BaseNaming"]
 
@@ -12,17 +15,22 @@ Value = TypeVar("Value")
 class BaseNaming(collections.abc.Mapping[str, Value]):
     __slots__ = ()
 
-    @abstractmethod
     @setdoc.basic
-    def __contains__(self: Self, other: Any) -> bool: ...
+    def __contains__(self: Self, other: Any) -> bool:
+        return other in self.items()
 
-    @abstractmethod
     @setdoc.basic
-    def __eq__(self: Self, other: Any) -> bool: ...
+    def __eq__(self: Self, other: Any) -> bool:
+        return type(self) is type(other) and self.items() == other.items()
 
-    @abstractmethod
     @setdoc.basic
-    def __getitem__(self: Self, key: Any) -> Any: ...
+    def __getitem__(self: Self, key: Any) -> Any:
+        x: str
+        x = str(key)
+        try:
+            return self._mapping[x]
+        except KeyError:
+            raise KeyError("Key %r unknown." % key) from None
 
     @abstractmethod
     @setdoc.basic
@@ -32,13 +40,15 @@ class BaseNaming(collections.abc.Mapping[str, Value]):
     @setdoc.basic
     def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None: ...
 
-    @abstractmethod
     @setdoc.basic
-    def __iter__(self: Self) -> Iterable[tuple[str, Value]]: ...
+    def __iter__(self: Self) -> Iterable[tuple[str, Value]]:
+        return iter(self.items())
 
-    @abstractmethod
     @setdoc.basic
-    def __len__(self: Self) -> int: ...
+    def __len__(self: Self) -> int:
+        return len(self._mapping)
+
+    __ne__ = object.__ne__
 
     @abstractmethod
     @setdoc.basic
@@ -48,30 +58,32 @@ class BaseNaming(collections.abc.Mapping[str, Value]):
     @setdoc.basic
     def __repr__(self: Self) -> str: ...
 
-    @abstractmethod
     @setdoc.basic
-    def __reversed__(self: Self) -> Iterator[tuple[str, Value]]: ...
+    def __reversed__(self: Self) -> reversed:
+        return reversed(self.items())
 
     @classmethod
-    @abstractmethod
-    def fromkeys(cls: type[Self], keys: Iterable, value: Value = None, /) -> Self: ...
+    def fromkeys(cls: type[Self], keys: Iterable, value: Value = None, /) -> Self:
+        return cls(zip(keys, repeat(value)))
 
-    @abstractmethod
     def get(self: Self, key: Any, default: Any = None, /) -> Value:
         "This method returns the value for an existing key or default for a not existing key."
-        ...
+        return self._mapping.get(str(key), default)
 
-    @abstractmethod
-    def keys(self: Self) -> Iterator[str]:
+    def keys(self: Self) -> tuple[str, ...]:
         "This method returns an iterable of the keys."
-        ...
+        if self._keys is None:
+            self._keys = tuple(self._mapping.keys())
+        return self._keys
 
-    @abstractmethod
-    def items(self: Self) -> Iterator[tuple[str, Value]]:
+    def items(self: Self) -> tuple[tuple[str, Value], ...]:
         "This method returns an iterable of the key-value-pairs."
-        ...
+        if self._items is None:
+            self._items = tuple(self._mapping.items())
+        return self._items
 
-    @abstractmethod
-    def values(self: Self) -> Iterator[Value]:
+    def values(self: Self) -> tuple[Value, ...]:
         "This method returns an iterable of the values."
-        ...
+        if self._values is None:
+            self._values = tuple(self._mapping.values())
+        return self._values
