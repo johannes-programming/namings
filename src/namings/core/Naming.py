@@ -1,3 +1,4 @@
+import copy
 from typing import *
 
 import setdoc
@@ -14,11 +15,21 @@ Value = TypeVar("Value")
 
 
 class Naming(BaseNaming[Value], Copyable):
-    __slots__ = ("_items", "_keys", "_mapping", "_repr", "_values")
+    __slots__ = ("_items", "_keys", "_mapping", "_values")
 
     @setdoc.basic
     def __copy__(self: Self) -> Self:
         return self.copy()
+
+    @setdoc.basic
+    def __deepcopy__(self: Self, memo: dict[int, Any]) -> Self:
+        ans: Self
+        ans = object.__new__(type(self))
+        ans._items = None
+        ans._keys = None
+        ans._mapping = copy.deepcopy(self._mapping, memo)
+        ans._values = None
+        return ans
 
     @setdoc.basic
     def __delitem__(self: Self, key: Any) -> None:
@@ -78,7 +89,6 @@ class Naming(BaseNaming[Value], Copyable):
     def _reset(self: Self) -> None:
         self._items = None
         self._keys = None
-        self._repr = None
         self._values = None
 
     def clear(self: Self) -> None:
@@ -92,8 +102,10 @@ class Naming(BaseNaming[Value], Copyable):
     def copy(self: Self) -> Self:
         ans: Self
         ans = object.__new__(type(self))
-        ans._reset()
+        ans._items = self._items
+        ans._keys = self._keys
         ans._mapping = self._mapping.copy()
+        ans._values = self._values
         return ans
 
     @overload

@@ -31,7 +31,7 @@ license-files = [
 name = "namings"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.5+local.13"
+version = "1.0.5+local.14"
 
 [project.urls]
 Download = "https://pypi.org/project/namings/#files"
