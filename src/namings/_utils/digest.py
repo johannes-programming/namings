@@ -5,7 +5,7 @@ __all__ = ["digest_data"]
 MISSING = object()
 
 
-def digest_data(data: Any, /) -> dict:
+def digest_data(data: Any, /) -> dict[str, Any]:
     ans: dict
     keys: Any
     ans = dict()

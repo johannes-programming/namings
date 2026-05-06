@@ -4,7 +4,7 @@ from typing import *
 from namings.core.FrozenNaming import FrozenNaming
 from namings.core.Naming import Naming
 
-__all__ = ["Test0"]
+__all__ = ["TestBothClasses"]
 
 
 class TestBothClasses(unittest.TestCase):

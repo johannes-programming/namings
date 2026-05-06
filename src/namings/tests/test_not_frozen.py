@@ -3,7 +3,7 @@ from typing import *
 
 from namings.core.Naming import Naming
 
-__all__ = ["Test0"]
+__all__ = ["TestNotFrozen"]
 
 
 class TestNotFrozen(unittest.TestCase):

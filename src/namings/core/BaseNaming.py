@@ -5,8 +5,6 @@ from typing import *
 
 import setdoc
 
-from namings._utils.digest import digest_data
-
 __all__ = ["BaseNaming"]
 
 Value = TypeVar("Value")
