@@ -1,9 +1,9 @@
 from typing import *
 
 import setdoc
-from copyable import Copyable
 
 from namings._utils.digest import digest_data
+from namings.abc.NamingABC import NamingABC
 from namings.core.BaseNaming import BaseNaming
 
 __all__ = ["Naming"]
@@ -12,7 +12,7 @@ MISSING = object()
 Value = TypeVar("Value")
 
 
-class Naming(BaseNaming[Value], Copyable):
+class Naming(NamingABC[Value], BaseNaming[Value]):
     __slots__ = ("_dict", "_items", "_keys", "_values")
 
     _dict: dict[str, Value]
@@ -25,8 +25,6 @@ class Naming(BaseNaming[Value], Copyable):
             raise KeyError("Key %r unknown." % key) from None
         finally:
             self._reset()
-
-    __hash__ = None
 
     @setdoc.basic
     def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None:
@@ -93,7 +91,7 @@ class Naming(BaseNaming[Value], Copyable):
     @overload
     def pop(self: Self, key: Any, default: Any, /) -> Any: ...
 
-    def pop(self: Self, key: Any, default: Any = MISSING, /) -> Value:
+    def pop(self: Self, key: Any, default: Any = MISSING, /) -> Any:
         try:
             if default is MISSING:
                 return self._dict.pop(str(key))
@@ -102,6 +100,7 @@ class Naming(BaseNaming[Value], Copyable):
         finally:
             self._reset()
 
+    @setdoc.basic
     def setdefault(self: Self, key: Any, default: Any = None, /) -> Value:
         try:
             return self._dict.setdefault(str(key), default)

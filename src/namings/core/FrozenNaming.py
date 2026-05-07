@@ -1,25 +1,17 @@
-import collections.abc
 from typing import *
 
 import setdoc
 
 from namings._utils.digest import digest_data
+from namings.abc.FrozenNamingABC import FrozenNamingABC
 from namings.core.BaseNaming import BaseNaming
 
 __all__ = ["FrozenNaming"]
 Value = TypeVar("Value")
 
 
-class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
+class FrozenNaming(FrozenNamingABC[Value], BaseNaming[Value]):
     __slots__ = ("_dict", "_items", "_keys", "_values")
-
-    @setdoc.basic
-    def __copy__(self: Self) -> Self:
-        return self
-
-    @setdoc.basic
-    def __hash__(self: Self) -> int:
-        return hash(self.items())
 
     @setdoc.basic
     def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None:
