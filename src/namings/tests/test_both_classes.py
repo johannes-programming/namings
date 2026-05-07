@@ -10,6 +10,7 @@ __all__ = ["TestBothClasses"]
 
 class TestBothClasses(unittest.TestCase):
     def test_both_classes(self: Self) -> None:
+        cls: type[BaseNaming]
         for cls in (FrozenNaming, Naming):
             self.dunder(cls)
             self.method(cls)
@@ -27,7 +28,7 @@ class TestBothClasses(unittest.TestCase):
         self.dunder_reversed(cls)
 
     def dunder_contains(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertIn(("hello", "world"), obj)
         self.assertNotIn(["hello", "world"], obj)
@@ -36,7 +37,10 @@ class TestBothClasses(unittest.TestCase):
         self.assertNotIn(("foo", "bar"), obj)
 
     def dunder_eq(self: Self, cls: type[BaseNaming]) -> None:
-        objA: Any
+        objA: BaseNaming
+        objB: BaseNaming
+        objC: BaseNaming
+        objD: BaseNaming
         objA = cls([["hello", "world"], [4, 2]])
         objB = cls([["hello", "world"], ["4", 2]])
         objC = cls([[4, 2], ["hello", "world"]])
@@ -49,7 +53,7 @@ class TestBothClasses(unittest.TestCase):
         self.assertNotEqual(objC, objD)
 
     def dunder_getitem(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(obj["hello"], "world")
         self.assertEqual(obj["4"], 2)
@@ -57,12 +61,12 @@ class TestBothClasses(unittest.TestCase):
             obj["foo"]
 
     def dunder_iter(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj), [("hello", "world"), ("4", 2)])
 
     def dunder_len(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(len(obj), 2)
 
@@ -72,7 +76,7 @@ class TestBothClasses(unittest.TestCase):
     def dunder_repr(self: Self, cls: type[BaseNaming]) -> None:
         answer: str
         dict_: dict
-        obj: Any
+        obj: BaseNaming
         solution: str
         dict_ = {"hello": "world", "4": 2}
         obj = cls([["hello", "world"], [4, 2]])
@@ -81,7 +85,7 @@ class TestBothClasses(unittest.TestCase):
         self.assertEqual(answer, solution)
 
     def dunder_reversed(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(reversed(obj)), [("4", 2), ("hello", "world")])
 
@@ -93,9 +97,9 @@ class TestBothClasses(unittest.TestCase):
         self.method_values(cls)
 
     def method_fromkeys(self: Self, cls: type[BaseNaming]) -> None:
-        objA: Any
-        objB: Any
-        objC: Any
+        objA: BaseNaming
+        objB: BaseNaming
+        objC: BaseNaming
         objA = cls.fromkeys(["hello", 42])
         objB = cls([["hello", None], [42, None]])
         objC = cls(dict.fromkeys(["hello", 42]).items())
@@ -108,7 +112,7 @@ class TestBothClasses(unittest.TestCase):
         self.assertEqual(objA, objC)
 
     def method_get(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(obj.get("hello"), "world")
         self.assertEqual(obj.get("hello", "bar"), "world")
@@ -116,29 +120,29 @@ class TestBothClasses(unittest.TestCase):
         self.assertEqual(obj.get("foo", "bar"), "bar")
 
     def method_keys(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj.keys()), ["hello", "4"])
 
     def method_items(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj.items()), [("hello", "world"), ("4", 2)])
 
     def method_values(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj.values()), ["world", 2])
 
     def slots(self: Self, cls: type[BaseNaming]) -> None:
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         with self.assertRaises(Exception):
             obj.foo = 42
 
     def stars(self: Self, cls: type[BaseNaming]) -> None:
         dict_: dict
-        obj: Any
+        obj: BaseNaming
         obj = cls([["hello", "world"], [4, 2]])
         dict_ = dict(**obj)
         self.assertEqual(list(dict_.items()), [("hello", "world"), ("4", 2)])
