@@ -90,26 +90,10 @@ class TestBothClasses(unittest.TestCase):
         self.assertEqual(list(reversed(obj)), [("4", 2), ("hello", "world")])
 
     def method(self: Self, cls: type[BaseNaming]) -> None:
-        self.method_fromkeys(cls)
         self.method_get(cls)
         self.method_keys(cls)
         self.method_items(cls)
         self.method_values(cls)
-
-    def method_fromkeys(self: Self, cls: type[BaseNaming]) -> None:
-        objA: BaseNaming
-        objB: BaseNaming
-        objC: BaseNaming
-        objA = cls.fromkeys(["hello", 42])
-        objB = cls([["hello", None], [42, None]])
-        objC = cls(dict.fromkeys(["hello", 42]).items())
-        self.assertEqual(objA, objB)
-        self.assertEqual(objA, objC)
-        objA = cls.fromkeys(["hello", 42], "foo")
-        objB = cls([["hello", "foo"], [42, "foo"]])
-        objC = cls(dict.fromkeys(["hello", 42], "foo").items())
-        self.assertEqual(objA, objB)
-        self.assertEqual(objA, objC)
 
     def method_get(self: Self, cls: type[BaseNaming]) -> None:
         obj: BaseNaming

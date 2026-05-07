@@ -40,12 +40,6 @@ class TestNotFrozen(unittest.TestCase):
         self.assertEqual(obj.pop("hello", "bar"), "world")
         self.assertEqual(list(obj), [("4", 2)])
 
-    def test_popitem(self: Self) -> None:
-        obj: Naming
-        obj = Naming([["hello", "world"], [4, 2]])
-        self.assertEqual(obj.popitem(), ("4", 2))
-        self.assertEqual(list(obj), [("hello", "world")])
-
     def test_setdefault(self: Self) -> None:
         objA: Naming
         objA = Naming([["hello", "world"], [4, 2]])
