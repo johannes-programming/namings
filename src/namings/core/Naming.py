@@ -102,13 +102,6 @@ class Naming(BaseNaming[Value], Copyable):
         finally:
             self._reset()
 
-    def popitem(self: Self) -> tuple[str, Value]:
-        "This method deletes and returns the last key-value-pair."
-        try:
-            return self._dict.popitem()
-        finally:
-            self._reset()
-
     def setdefault(self: Self, key: Any, default: Any = None, /) -> Value:
         try:
             return self._dict.setdefault(str(key), default)

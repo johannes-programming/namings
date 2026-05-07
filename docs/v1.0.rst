@@ -15,25 +15,25 @@ To install ``namings``, you can use ``pip``. Open your terminal and run:
 Features
 --------
 
-``class namings.BaseNaming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``class namings.BaseNaming(items: Any = (), /, **kwargs: Any)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This abstract base class is a common ancestor of ``FrozenNaming`` and ``Naming``.
 
-``class namings.FrozenNaming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``class namings.FrozenNaming(items: Any = (), /, **kwargs: Any)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This immutable class is a type of collection
 
-- that only uses strings as keys
+- that coerces keys to be strings
 - and that acts similarly to a sequence of its items.
 
-``class namings.Naming(items: Iterable[Iterable] = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``class namings.Naming(items: Any = (), /, **kwargs: Any)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This mutable class is a type of collection
 
-- that only uses strings as keys
+- that coerces keys to be strings
 - and that acts similarly to a sequence of its items.
 
 ``namings.tests.test()``

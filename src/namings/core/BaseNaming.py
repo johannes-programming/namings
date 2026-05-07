@@ -63,10 +63,6 @@ class BaseNaming(collections.abc.Collection, Generic[Value]):
     def __reversed__(self: Self) -> reversed:
         return reversed(self.items())
 
-    @classmethod
-    def fromkeys(cls: type[Self], keys: Iterable, value: Any = None, /) -> Self:
-        return cls(zip(keys, repeat(value)))
-
     def get(self: Self, key: Any, default: Any = None, /) -> Any:
         "This method returns the value for an existing key or default for a not existing key."
         return self._dict.get(str(key), default)

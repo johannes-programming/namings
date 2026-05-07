@@ -1,3 +1,4 @@
+import copy
 import unittest
 from typing import *
 
@@ -7,6 +8,12 @@ __all__ = ["TestFrozen"]
 
 
 class TestFrozen(unittest.TestCase):
+    def test_copy_copy(self: Self) -> None:
+        objA: FrozenNaming
+        objA = FrozenNaming([["hello", "world"], [4, 2]])
+        objB = copy.copy(objA)
+        self.assertEqual(objA, objB)
+
     def test_frozen(self: Self) -> None:
         obj: FrozenNaming
         obj = FrozenNaming([["hello", "world"], [4, 2]])
