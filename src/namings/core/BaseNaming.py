@@ -1,6 +1,6 @@
 import collections.abc
+import types
 from abc import abstractmethod
-from itertools import repeat
 from typing import *
 
 import setdoc
@@ -23,8 +23,14 @@ class BaseNaming(collections.abc.Collection, Generic[Value]):
         return other in self.items()
 
     @setdoc.basic
-    def __eq__(self: Self, other: Any) -> bool:
-        return type(self) is type(other) and self.items() == other.items()
+    def __eq__(
+        self: Self,
+        other: object,
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNaming):
+            return self.items() == other.items()
+        else:
+            return NotImplemented
 
     @setdoc.basic
     def __getitem__(self: Self, key: Any) -> Any:

@@ -9,6 +9,16 @@ __all__ = ["TestBothClasses"]
 
 
 class TestBothClasses(unittest.TestCase):
+
+    def test_eq(self: Self) -> None:
+        frozenNaming: FrozenNaming
+        naming: Naming
+        frozenNaming = FrozenNaming([["hello", "world"], [4, 2]])
+        naming = Naming([["hello", "world"], [4, 2]])
+        self.assertEqual(frozenNaming, naming)
+        self.assertEqual(frozenNaming, frozenNaming)
+        self.assertEqual(naming, naming)
+
     def test_both_classes(self: Self) -> None:
         cls: type[BaseNaming]
         for cls in (FrozenNaming, Naming):
