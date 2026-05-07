@@ -16,14 +16,6 @@ class TestNotFrozen(unittest.TestCase):
         self.assertEqual(list(objA), [("hello", "world"), ("4", 2)])
         self.assertEqual(list(objB), [("hello", "world"), ("4", 2)])
 
-    def test_copy_copy(self: Self) -> None:
-        objA: Naming
-        objA = Naming([["hello", "world"], [4, 2]])
-        objB = copy.copy(objA)
-        self.assertEqual(objA, objB)
-        self.assertEqual(list(objA), [("hello", "world"), ("4", 2)])
-        self.assertEqual(list(objB), [("hello", "world"), ("4", 2)])
-
     def test_clear(self: Self) -> None:
         objA: Naming
         objA = Naming([["hello", "world"], [4, 2]])

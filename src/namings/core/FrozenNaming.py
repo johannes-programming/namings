@@ -14,10 +14,6 @@ class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
     __slots__ = ("_dict", "_items", "_keys", "_values")
 
     @setdoc.basic
-    def __copy__(self: Self) -> Self:
-        return self
-
-    @setdoc.basic
     def __hash__(self: Self) -> int:
         return hash(self.items())
 

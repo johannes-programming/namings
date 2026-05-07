@@ -19,10 +19,6 @@ class BaseNamingABC(collections.abc.Collection[Value]):
 
     @abstractmethod
     @setdoc.basic
-    def __copy__(self: Self) -> Self: ...
-
-    @abstractmethod
-    @setdoc.basic
     def __eq__(
         self: Self,
         other: object,

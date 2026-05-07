@@ -18,10 +18,6 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     _dict: dict[str, Value]
 
     @setdoc.basic
-    def __copy__(self: Self) -> Self:
-        return self.copy()
-
-    @setdoc.basic
     def __delitem__(self: Self, key: Any) -> None:
         try:
             del self._dict[str(key)]
