@@ -55,10 +55,7 @@ class Naming(BaseNaming[Value], Copyable):
     def __or__(self: Self, other: Any) -> Self:
         ans: Self
         ans = self.copy()
-        if isinstance(other, BaseNaming):
-            ans._dict |= other._dict
-        else:
-            ans._dict |= digest_data(other)
+        ans.__ior__(other)
         return ans
 
     @setdoc.basic
