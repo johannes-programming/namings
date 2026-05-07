@@ -1,6 +1,7 @@
 from typing import *
 
 import setdoc
+import collections.abc
 
 from namings.abc.BaseNamingABC import BaseNamingABC
 
@@ -8,7 +9,7 @@ __all__ = ["FrozenNamingABC"]
 Value = TypeVar("Value")
 
 
-class FrozenNamingABC(BaseNamingABC[Value]):
+class FrozenNamingABC(collections.abc.Hashable, BaseNamingABC[Value]):
     __slots__ = ()
 
     @setdoc.basic

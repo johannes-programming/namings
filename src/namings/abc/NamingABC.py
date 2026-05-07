@@ -36,10 +36,6 @@ class NamingABC(Copyable, BaseNamingABC[Value]):
         "This method discards all key-value-pairs."
         ...
 
-    @abstractmethod
-    @setdoc.basic
-    def copy(self: Self) -> Self: ...
-
     @overload
     def pop(self: Self, key: Any, /) -> Value: ...
 
