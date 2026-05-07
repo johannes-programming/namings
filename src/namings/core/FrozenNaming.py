@@ -3,6 +3,7 @@ from typing import *
 import setdoc
 
 from namings._utils.digest import digest_data
+from namings.abc.BaseNamingABC import BaseNamingABC
 from namings.abc.FrozenNamingABC import FrozenNamingABC
 from namings.core.BaseNaming import BaseNaming
 
@@ -11,7 +12,7 @@ Value = TypeVar("Value")
 
 
 class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
-    __slots__ = ("_dict", "_items", "_keys", "_values")
+    __slots__ = ()
 
     @setdoc.basic
     def __hash__(self: Self) -> int:
@@ -19,16 +20,16 @@ class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
 
     @setdoc.basic
     def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None:
-        dict_: dict
         x: Any
         y: Any
         if isinstance(data, BaseNaming):
-            dict_ = dict(data._dict)
+            self._dict = dict(data._dict)
+        elif isinstance(data, BaseNamingABC):
+            self._dict = dict(data)
         else:
-            dict_ = digest_data(data)
+            self._dict = digest_data(data)
         for x, y in kwargs.items():
-            dict_[str(x)] = y
-        self._dict = dict_
+            self._dict[str(x)] = y
         self._items = None
         self._keys = None
         self._values = None
@@ -36,10 +37,8 @@ class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
     @setdoc.basic
     def __or__(self: Self, other: Any) -> Self:
         ans: Self
-        dict_: dict
-        dict_ = self._dict | digest_data(other)
         ans = object.__new__(type(self))
-        ans._dict = dict_
+        ans._dict = self._dict | digest_data(other)
         ans._items = None
         ans._keys = None
         ans._values = None

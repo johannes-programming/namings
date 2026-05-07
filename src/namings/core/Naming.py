@@ -3,6 +3,7 @@ from typing import *
 import setdoc
 
 from namings._utils.digest import digest_data
+from namings.abc.BaseNamingABC import BaseNamingABC
 from namings.abc.NamingABC import NamingABC
 from namings.core.BaseNaming import BaseNaming
 
@@ -13,7 +14,7 @@ Value = TypeVar("Value")
 
 
 class Naming(BaseNaming[Value], NamingABC[Value]):
-    __slots__ = ("_dict", "_items", "_keys", "_values")
+    __slots__ = ()
 
     _dict: dict[str, Value]
 
@@ -35,6 +36,8 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
         self._reset()
         if isinstance(data, BaseNaming):
             self._dict = dict(data._dict)
+        elif isinstance(data, BaseNamingABC):
+            self._dict = dict(data)
         else:
             self._dict = digest_data(data)
         for x, y in kwargs.items():
@@ -45,6 +48,8 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
         try:
             if isinstance(other, BaseNaming):
                 self._dict |= other._dict
+            elif isinstance(other, BaseNamingABC):
+                self._dict |= other
             else:
                 self._dict |= digest_data(other)
             return self
@@ -81,9 +86,9 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     def copy(self: Self) -> Self:
         ans: Self
         ans = object.__new__(type(self))
+        ans._dict = self._dict.copy()
         ans._items = self._items
         ans._keys = self._keys
-        ans._dict = self._dict.copy()
         ans._values = self._values
         return ans
 
@@ -116,6 +121,8 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
         try:
             if isinstance(data, BaseNaming):
                 self._dict |= data._dict
+            elif isinstance(data, BaseNamingABC):
+                self._dict |= data
             else:
                 self._dict |= digest_data(data)
             for x, y in kwargs.items():

@@ -13,16 +13,19 @@ Value = TypeVar("Value")
 class BaseNamingABC(collections.abc.Collection[Value]):
     __slots__ = ()
 
-    @abstractmethod
     @setdoc.basic
-    def __contains__(self: Self, other: Any) -> bool: ...
+    def __contains__(self: Self, other: Any) -> bool:
+        return other in self.items()
 
-    @abstractmethod
     @setdoc.basic
     def __eq__(
         self: Self,
         other: object,
-    ) -> types.NotImplementedType | bool: ...
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNamingABC):
+            return tuple(self) == tuple(other)
+        else:
+            return NotImplemented
 
     @abstractmethod
     @setdoc.basic
@@ -32,30 +35,32 @@ class BaseNamingABC(collections.abc.Collection[Value]):
     @setdoc.basic
     def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None: ...
 
-    @abstractmethod
     @setdoc.basic
-    def __iter__(self: Self) -> Iterable[tuple[str, Value]]: ...
+    def __iter__(self: Self) -> Iterable[tuple[str, Value]]:
+        return iter(self.items())
 
-    @abstractmethod
     @setdoc.basic
-    def __len__(self: Self) -> int: ...
+    def __len__(self: Self) -> int:
+        return len(self.items())
 
     @abstractmethod
     @setdoc.basic
     def __or__(self: Self, other: Any) -> Self: ...
 
-    @abstractmethod
     @setdoc.basic
-    def __repr__(self: Self) -> str: ...
+    def __repr__(self: Self) -> str:
+        return f"{type(self).__name__}({dict(self)})"
 
-    @abstractmethod
     @setdoc.basic
-    def __reversed__(self: Self) -> reversed: ...
+    def __reversed__(self: Self) -> Iterable[tuple[str, Value]]:
+        return reversed(self.items())
 
-    @abstractmethod
     def get(self: Self, key: Any, default: Any = None, /) -> Any:
         "This method returns the value for an existing key or default for a not existing key."
-        ...
+        try:
+            return self[key]
+        except KeyError:
+            return default
 
     @abstractmethod
     def keys(self: Self) -> collections.abc.Collection[str]:
