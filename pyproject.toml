@@ -15,11 +15,9 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Typing :: Typed",
 ]
 dependencies = [
-    "copyable>=1.0,<2",
-    "datarepr>=1.1,<2",
+    "copyable>=1.1,<2",
     "setdoc>=1.2.16,<2",
 ]
 description = "This project provides a new family of collections."
@@ -31,7 +29,7 @@ license-files = [
 name = "namings"
 readme = "README.rst"
 requires-python = ">=3.11"
-version = "1.0.5+local.16"
+version = "1.0.5+local.17"
 
 [project.urls]
 Download = "https://pypi.org/project/namings/#files"

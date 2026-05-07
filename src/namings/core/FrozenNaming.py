@@ -1,10 +1,7 @@
 import collections.abc
-import copy
-from types import MappingProxyType
 from typing import *
 
 import setdoc
-from datarepr import datarepr
 
 from namings._utils.digest import digest_data
 from namings.core.BaseNaming import BaseNaming
@@ -14,7 +11,7 @@ Value = TypeVar("Value")
 
 
 class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
-    __slots__ = ("_items", "_keys", "_mapping", "_values")
+    __slots__ = ("_dict", "_items", "_keys", "_dict", "_values")
 
     @setdoc.basic
     def __copy__(self: Self) -> Self:
@@ -30,28 +27,24 @@ class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
         x: Any
         y: Any
         if isinstance(data, BaseNaming):
-            dict_ = dict(data._mapping)
+            dict_ = dict(data._dict)
         else:
             dict_ = digest_data(data)
         for x, y in kwargs.items():
             dict_[str(x)] = y
+        self._dict = dict_
         self._items = None
         self._keys = None
-        self._mapping = MappingProxyType(dict_)
         self._values = None
 
     @setdoc.basic
     def __or__(self: Self, other: Any) -> Self:
         ans: Self
         dict_: dict
-        dict_ = self._mapping | digest_data(other)
+        dict_ = self._dict | digest_data(other)
         ans = object.__new__(type(self))
+        ans._dict = dict_
         ans._items = None
         ans._keys = None
-        ans._mapping = MappingProxyType(dict_)
         ans._values = None
         return ans
-
-    @setdoc.basic
-    def __repr__(self: Self) -> str:
-        return datarepr(type(self).__name__, dict(self._mapping))

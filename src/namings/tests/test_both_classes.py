@@ -1,6 +1,7 @@
 import unittest
 from typing import *
 
+from namings.core.BaseNaming import BaseNaming
 from namings.core.FrozenNaming import FrozenNaming
 from namings.core.Naming import Naming
 
@@ -15,7 +16,7 @@ class TestBothClasses(unittest.TestCase):
             self.slots(cls)
             self.stars(cls)
 
-    def dunder(self: Self, cls: type) -> None:
+    def dunder(self: Self, cls: type[BaseNaming]) -> None:
         self.dunder_contains(cls)
         self.dunder_eq(cls)
         self.dunder_getitem(cls)
@@ -24,7 +25,7 @@ class TestBothClasses(unittest.TestCase):
         self.dunder_repr(cls)
         self.dunder_reversed(cls)
 
-    def dunder_contains(self: Self, cls: type) -> None:
+    def dunder_contains(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertIn(("hello", "world"), obj)
@@ -33,7 +34,7 @@ class TestBothClasses(unittest.TestCase):
         self.assertNotIn((4, 2), obj)
         self.assertNotIn(("foo", "bar"), obj)
 
-    def dunder_eq(self: Self, cls: type) -> None:
+    def dunder_eq(self: Self, cls: type[BaseNaming]) -> None:
         objA: Any
         objA = cls([["hello", "world"], [4, 2]])
         objB = cls([["hello", "world"], ["4", 2]])
@@ -46,7 +47,7 @@ class TestBothClasses(unittest.TestCase):
         self.assertNotEqual(objB, objD)
         self.assertNotEqual(objC, objD)
 
-    def dunder_getitem(self: Self, cls: type) -> None:
+    def dunder_getitem(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(obj["hello"], "world")
@@ -54,17 +55,17 @@ class TestBothClasses(unittest.TestCase):
         with self.assertRaises(KeyError):
             obj["foo"]
 
-    def dunder_iter(self: Self, cls: type) -> None:
+    def dunder_iter(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj), [("hello", "world"), ("4", 2)])
 
-    def dunder_len(self: Self, cls: type) -> None:
+    def dunder_len(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(len(obj), 2)
 
-    def dunder_repr(self: Self, cls: type) -> None:
+    def dunder_repr(self: Self, cls: type[BaseNaming]) -> None:
         answer: str
         dict_: dict
         obj: Any
@@ -75,19 +76,19 @@ class TestBothClasses(unittest.TestCase):
         solution = cls.__name__ + "(" + repr(dict_) + ")"
         self.assertEqual(answer, solution)
 
-    def dunder_reversed(self: Self, cls: type) -> None:
+    def dunder_reversed(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(reversed(obj)), [("4", 2), ("hello", "world")])
 
-    def method(self: Self, cls: type) -> None:
+    def method(self: Self, cls: type[BaseNaming]) -> None:
         self.method_fromkeys(cls)
         self.method_get(cls)
         self.method_keys(cls)
         self.method_items(cls)
         self.method_values(cls)
 
-    def method_fromkeys(self: Self, cls: type) -> None:
+    def method_fromkeys(self: Self, cls: type[BaseNaming]) -> None:
         objA: Any
         objB: Any
         objC: Any
@@ -102,7 +103,7 @@ class TestBothClasses(unittest.TestCase):
         self.assertEqual(objA, objB)
         self.assertEqual(objA, objC)
 
-    def method_get(self: Self, cls: type) -> None:
+    def method_get(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(obj.get("hello"), "world")
@@ -110,28 +111,28 @@ class TestBothClasses(unittest.TestCase):
         self.assertEqual(obj.get("foo"), None)
         self.assertEqual(obj.get("foo", "bar"), "bar")
 
-    def method_keys(self: Self, cls: type) -> None:
+    def method_keys(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj.keys()), ["hello", "4"])
 
-    def method_items(self: Self, cls: type) -> None:
+    def method_items(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj.items()), [("hello", "world"), ("4", 2)])
 
-    def method_values(self: Self, cls: type) -> None:
+    def method_values(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(list(obj.values()), ["world", 2])
 
-    def slots(self: Self, cls: type) -> None:
+    def slots(self: Self, cls: type[BaseNaming]) -> None:
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         with self.assertRaises(Exception):
             obj.foo = 42
 
-    def stars(self: Self, cls: type) -> None:
+    def stars(self: Self, cls: type[BaseNaming]) -> None:
         dict_: dict
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
