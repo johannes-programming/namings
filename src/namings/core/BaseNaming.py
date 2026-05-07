@@ -51,8 +51,6 @@ class BaseNaming(collections.abc.Collection, Generic[Value]):
     def __len__(self: Self) -> int:
         return len(self._dict)
 
-    __ne__ = object.__ne__
-
     @abstractmethod
     @setdoc.basic
     def __or__(self: Self, other: Any) -> Self: ...

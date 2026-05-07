@@ -11,7 +11,7 @@ Value = TypeVar("Value")
 
 
 class FrozenNaming(BaseNaming[Value], collections.abc.Hashable):
-    __slots__ = ("_dict", "_items", "_keys", "_dict", "_values")
+    __slots__ = ("_dict", "_items", "_keys", "_values")
 
     @setdoc.basic
     def __copy__(self: Self) -> Self:

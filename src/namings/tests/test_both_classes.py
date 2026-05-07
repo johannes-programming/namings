@@ -22,6 +22,7 @@ class TestBothClasses(unittest.TestCase):
         self.dunder_getitem(cls)
         self.dunder_iter(cls)
         self.dunder_len(cls)
+        self.dunder_ne(cls)
         self.dunder_repr(cls)
         self.dunder_reversed(cls)
 
@@ -64,6 +65,9 @@ class TestBothClasses(unittest.TestCase):
         obj: Any
         obj = cls([["hello", "world"], [4, 2]])
         self.assertEqual(len(obj), 2)
+
+    def dunder_ne(self: Self, cls: type[BaseNaming]) -> None:
+        self.assertIs(cls.__ne__, object.__ne__)
 
     def dunder_repr(self: Self, cls: type[BaseNaming]) -> None:
         answer: str
