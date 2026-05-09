@@ -19,7 +19,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     _dict: dict[str, Value]
 
     @setdoc.basic
-    def __delitem__(self: Self, key: Any) -> None:
+    def __delitem__(self: Self, key: object) -> None:
         try:
             del self._dict[str(key)]
         except KeyError:
@@ -64,7 +64,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
         return ans
 
     @setdoc.basic
-    def __setitem__(self: Self, key: Any, value: Any) -> Any:
+    def __setitem__(self: Self, key: object, value: Any) -> None:
         try:
             self._dict[str(key)] = value
         finally:
@@ -93,12 +93,12 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
         return ans
 
     @overload
-    def pop(self: Self, key: Any, /) -> Value: ...
+    def pop(self: Self, key: object, /) -> Value: ...
 
     @overload
-    def pop(self: Self, key: Any, default: Any, /) -> Any: ...
+    def pop(self: Self, key: object, default: Any, /) -> Any: ...
 
-    def pop(self: Self, key: Any, default: Any = MISSING, /) -> Value:
+    def pop(self: Self, key: object, default: Any = MISSING, /) -> Any:
         try:
             if default is MISSING:
                 return self._dict.pop(str(key))
@@ -108,7 +108,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
             self._reset()
 
     @setdoc.basic
-    def setdefault(self: Self, key: Any, default: Any = None, /) -> Value:
+    def setdefault(self: Self, key: object, default: Any = None, /) -> Value:
         try:
             return self._dict.setdefault(str(key), default)
         finally:

@@ -1,4 +1,3 @@
-import copy
 import unittest
 from typing import *
 
@@ -10,7 +9,7 @@ __all__ = ["TestFrozen"]
 class TestFrozen(unittest.TestCase):
 
     def test_frozen(self: Self) -> None:
-        obj: FrozenNaming
+        obj: FrozenNaming[int | str]
         obj = FrozenNaming([["hello", "world"], [4, 2]])
         hash(obj)
         obj = FrozenNaming([[[], "world"], [4, 2]])

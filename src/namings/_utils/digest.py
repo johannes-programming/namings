@@ -6,7 +6,7 @@ MISSING = object()
 
 
 def digest_data(data: Any, /) -> dict[str, Any]:
-    ans: dict
+    ans: dict[str, Any]
     keys: Any
     x: Any
     y: Any

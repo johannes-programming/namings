@@ -21,11 +21,74 @@ Features
 ``class namings.abc.BaseNamingABC.BaseNamingABC(data: Any = (), /, **kwargs: Any)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+``__slots__ = ()``
+""""""""""""""""""
+
+``__contains__(other: Any) -> bool``
+""""""""""""""""""""""""""""""""""""
+
+``__eq__(other: object) -> types.NotImplementedType | bool``
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``__getitem__(key: object) -> Any``
+"""""""""""""""""""""""""""""""""""
+
+``__iter__() -> Iterable[tuple[str, Value]]``
+"""""""""""""""""""""""""""""""""""""""""""""
+
+``__len__() -> int``
+""""""""""""""""""""
+
+``__or__(other: Any) -> Self``
+""""""""""""""""""""""""""""""
+
+``__repr__() -> str``
+"""""""""""""""""""""
+
+``__reversed__() -> Iterable[tuple[str, Value]]``
+"""""""""""""""""""""""""""""""""""""""""""""""""
+
+``get(key: object, default: Any = None, /) -> Any``
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``keys() -> tuple[str, ...]``
+"""""""""""""""""""""""""""""
+
+``items(self: Self) -> tuple[tuple[str, Value], ...]``
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``values(self: Self) -> tuple[Value, ...]``
+"""""""""""""""""""""""""""""""""""""""""""
+
 ``class namings.abc.FrozenNamingABC.FrozenNamingABC(data: Any = (), /, **kwargs: Any)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``class namings.abc.NamingABC.NamingABC(data: Any = (), /, **kwargs: Any)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``__delitem__(key: object) -> None``
+""""""""""""""""""""""""""""""""""""
+
+``__hash__: Any = None``
+""""""""""""""""""""""""
+
+``__ior__(other: Any) -> Self``
+"""""""""""""""""""""""""""""""
+
+``__setitem__(key: object, value: Any) -> None``
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+``clear() -> None``
+"""""""""""""""""""
+
+``pop(self: Self, key: object, /) -> Value`` ``pop(key: object, default: Any, /) -> Any``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``setdefault(key: object, default: Any = None, /) -> Value``
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``update(data: Any = (), /, **kwargs: Any) -> None``
+""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 ``namings.core``
 ^^^^^^^^^^^^^^^^
