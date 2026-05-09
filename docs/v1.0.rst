@@ -30,6 +30,20 @@ Features
 ``__eq__(other: object) -> types.NotImplementedType | bool``
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+This magic method implements ``self == other``. Here, it establishes a standard for all its descendents. It should only ever be overwritten with an extensional equivalent.
+
+.. code-block:: python
+
+    def __eq__(
+        self: Self,
+        other: object,
+        /,
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNamingABC):
+            return tuple(self) == tuple(other)
+        else:
+            return NotImplemented
+
 ``__getitem__(key: object) -> Any``
 """""""""""""""""""""""""""""""""""
 
@@ -84,8 +98,8 @@ Features
 ``pop(self: Self, key: object, /) -> Value`` ``pop(key: object, default: Any, /) -> Any``
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-``setdefault(key: object, default: Any = None, /) -> Value``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``setdefault(key: object, default: Any = None, /) -> Any``
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 ``update(data: Any = (), /, **kwargs: Any) -> None``
 """"""""""""""""""""""""""""""""""""""""""""""""""""
