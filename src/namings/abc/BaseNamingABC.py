@@ -7,7 +7,6 @@ import setdoc
 
 __all__ = ["BaseNamingABC"]
 
-Default = TypeVar("Default")
 Value = TypeVar("Value")
 
 

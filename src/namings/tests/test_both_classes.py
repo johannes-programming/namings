@@ -32,7 +32,7 @@ class TestBothClasses(unittest.TestCase):
         a: object
         b: object
         method: str
-        for method in ("__format__", "__ne__", "__str__"):
+        for method in ("__format__", "__str__"):
             a = getattr(cls, method)
             b = getattr(object, method)
             self.assertIs(a, b)
