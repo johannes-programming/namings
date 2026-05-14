@@ -248,8 +248,8 @@ It should only ever be overwritten with an extensional equivalent.
 ``clear() -> None``
 """""""""""""""""""
 
-``pop(self: Self, key: object, /) -> Value`` ``pop(key: object, default: Any, /) -> Any``
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``pop(key: object, /) -> Value`` ``pop(key: object, default: Any, /) -> Any``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 ``setdefault(key: object, default: Any = None, /) -> Any``
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
