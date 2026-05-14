@@ -7,10 +7,14 @@ import setdoc
 
 __all__ = ["BaseNamingABC"]
 
+Default = TypeVar("Default")
 Value = TypeVar("Value")
 
 
-class BaseNamingABC(collections.abc.Collection[tuple[str, Value]]):
+class BaseNamingABC(
+    collections.abc.Collection[tuple[str, Value]],
+    collections.abc.Reversible,
+):
     __slots__ = ()
 
     @setdoc.basic
@@ -25,6 +29,61 @@ class BaseNamingABC(collections.abc.Collection[tuple[str, Value]]):
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
             return tuple(self) == tuple(other)
+        else:
+            return NotImplemented
+
+    @setdoc.basic
+    def __ge__(
+        self: Self,
+        other: object,
+        /,
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNamingABC):
+            return tuple(self) >= tuple(other)
+        else:
+            return NotImplemented
+
+    @setdoc.basic
+    def __gt__(
+        self: Self,
+        other: object,
+        /,
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNamingABC):
+            return tuple(self) > tuple(other)
+        else:
+            return NotImplemented
+
+    @setdoc.basic
+    def __le__(
+        self: Self,
+        other: object,
+        /,
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNamingABC):
+            return tuple(self) <= tuple(other)
+        else:
+            return NotImplemented
+
+    @setdoc.basic
+    def __lt__(
+        self: Self,
+        other: object,
+        /,
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNamingABC):
+            return tuple(self) < tuple(other)
+        else:
+            return NotImplemented
+
+    @setdoc.basic
+    def __ne__(
+        self: Self,
+        other: object,
+        /,
+    ) -> types.NotImplementedType | bool:
+        if isinstance(other, BaseNamingABC):
+            return tuple(self) != tuple(other)
         else:
             return NotImplemented
 
