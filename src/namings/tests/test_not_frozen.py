@@ -40,9 +40,9 @@ class TestNotFrozen(unittest.TestCase):
         self.assertEqual(list(objA), [("hello", "world"), ("4", 2), ("foo", 3.14)])
 
     def test_update(self: Self) -> None:
-        obj: Naming[int | set | str]
+        obj: Naming[float | int | set | str]
         obj = Naming([["hello", "world"], [4, 2]])
-        obj.update([["foo", "bar"], ["hello", 3.14]], baz=set())
+        obj.update([("foo", "bar"), ("hello", 3.14)], baz=set())
         self.assertEqual(
             list(obj), [("hello", 3.14), ("4", 2), ("foo", "bar"), ("baz", set())]
         )

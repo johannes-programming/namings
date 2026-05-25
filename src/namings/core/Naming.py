@@ -1,4 +1,5 @@
-from typing import *
+from collections.abc import Iterable
+from typing import Any, Optional, Self, TypeVar, overload
 
 import setdoc
 
@@ -34,7 +35,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     @setdoc.basic
     def __init__(
         self: Self,
-        data: Iterable | SupportsKeysAndGetitem[Value] = (),
+        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
         /,
         **kwargs: Value,
     ) -> None:
@@ -139,7 +140,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
 
     def update(
         self: Self,
-        data: Iterable | SupportsKeysAndGetitem[Value] = (),
+        data: Iterable[tuple[object, Value]] | SupportsKeysAndGetitem[Value] = (),
         /,
         **kwargs: Value,
     ) -> None:

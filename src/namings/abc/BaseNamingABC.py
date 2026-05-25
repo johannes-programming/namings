@@ -17,7 +17,7 @@ Value_ = TypeVar("Value_")
 
 class BaseNamingABC(
     Collection[tuple[str, Value]],
-    Reversible,
+    Reversible[Value],
 ):
     __slots__ = ()
 
@@ -114,7 +114,7 @@ class BaseNamingABC(
 
     @abstractmethod
     @setdoc.basic
-    def __or__(self: Self, other: BaseNamingABC, /) -> Self: ...
+    def __or__(self: Self, other: BaseNamingABC[Value], /) -> Self: ...
 
     @setdoc.basic
     def __repr__(self: Self) -> str:

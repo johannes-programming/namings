@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from typing import *
 
 import setdoc
@@ -6,9 +7,10 @@ from namings._utils.digest import digest_data
 from namings.abc.BaseNamingABC import BaseNamingABC
 from namings.abc.FrozenNamingABC import FrozenNamingABC
 from namings.core.BaseNaming import BaseNaming
+from namings.typing.SupportsKeysAndGetitem import SupportsKeysAndGetitem
 
 __all__ = ["FrozenNaming"]
-Value = TypeVar("Value")
+Value = TypeVar("Value", covariant=True)
 
 
 class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
@@ -19,7 +21,12 @@ class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
         return hash(self.items())
 
     @setdoc.basic
-    def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None:
+    def __init__(
+        self: Self,
+        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        /,
+        **kwargs: Value,
+    ) -> None:
         x: Any
         y: Any
         if isinstance(data, BaseNaming):
@@ -35,7 +42,7 @@ class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
         self._values = None
 
     @setdoc.basic
-    def __or__(self: Self, other: BaseNamingABC) -> Self:
+    def __or__(self: Self, other: BaseNamingABC[Value]) -> Self:
         ans: Self
         if not isinstance(other, BaseNamingABC):
             return NotImplemented

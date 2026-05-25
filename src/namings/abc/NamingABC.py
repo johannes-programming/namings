@@ -27,7 +27,7 @@ class NamingABC(BaseNamingABC[Value], Copyable):
 
     @abstractmethod
     @setdoc.basic
-    def __ior__(self: Self, other: BaseNamingABC) -> Self: ...
+    def __ior__(self: Self, other: BaseNamingABC[Value]) -> Self: ...
 
     @abstractmethod
     @setdoc.basic
