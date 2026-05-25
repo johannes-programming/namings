@@ -65,11 +65,13 @@ class TestNotFrozen(unittest.TestCase):
             hash(obj)
 
     def test_dunder_ior(self: Self) -> None:
-        obj: Naming[int | str]
-        obj = Naming([("hello", "world"), (4, 2)])
-        obj |= [("foo", "bar"), ("hello", 3.14)]
+        objA: Naming[float | int | str]
+        objB: Naming[float | str]
+        objA = Naming([("hello", "world"), (4, 2)])
+        objB = Naming([("foo", "bar"), ("hello", 3.14)])
+        objA |= objB
         self.assertEqual(
-            list(obj), [("hello", 3.14), ("4", 2), ("foo", "bar")]
+            list(objA), [("hello", 3.14), ("4", 2), ("foo", "bar")]
         )
 
     def test_dunder_setitem(self: Self) -> None:
