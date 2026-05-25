@@ -35,8 +35,10 @@ class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
         self._values = None
 
     @setdoc.basic
-    def __or__(self: Self, other: Any) -> Self:
+    def __or__(self: Self, other: BaseNamingABC) -> Self:
         ans: Self
+        if not isinstance(other, BaseNamingABC):
+            return NotImplemented
         ans = object.__new__(type(self))
         ans._dict = self._dict | digest_data(other)
         ans._items = None

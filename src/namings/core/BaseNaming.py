@@ -6,7 +6,8 @@ from namings.abc.BaseNamingABC import BaseNamingABC
 
 __all__ = ["BaseNaming"]
 
-Value = TypeVar("Value")
+Value = TypeVar("Value", covariant=True)
+Value_ = TypeVar("Value_")
 
 
 class BaseNaming(BaseNamingABC[Value]):
@@ -18,7 +19,7 @@ class BaseNaming(BaseNamingABC[Value]):
     _values: Optional[tuple[Value, ...]]
 
     @setdoc.basic
-    def __getitem__(self: Self, key: object) -> Any:
+    def __getitem__(self: Self, key: object) -> Value:
         x: str
         x = str(key)
         try:
@@ -34,7 +35,12 @@ class BaseNaming(BaseNamingABC[Value]):
     def __repr__(self: Self) -> str:
         return f"{type(self).__name__}({self._dict})"
 
-    def get(self: Self, key: object, default: Any = None, /) -> Any:
+    def get(
+        self: Self,
+        key: object,
+        default: Optional[Value_] = None,
+        /,
+    ) -> Optional[Value | Value_]:
         "This method returns the value for an existing key or default for a not existing key."
         return self._dict.get(str(key), default)
 

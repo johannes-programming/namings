@@ -6,11 +6,13 @@ from namings._utils.digest import digest_data
 from namings.abc.BaseNamingABC import BaseNamingABC
 from namings.abc.NamingABC import NamingABC
 from namings.core.BaseNaming import BaseNaming
+from namings.typing.SupportsKeysAndGetitem import SupportsKeysAndGetitem
 
 __all__ = ["Naming"]
 
 MISSING = object()
 Value = TypeVar("Value")
+Value_ = TypeVar("Value_")
 
 
 class Naming(BaseNaming[Value], NamingABC[Value]):
@@ -30,9 +32,14 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     __hash__ = None
 
     @setdoc.basic
-    def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None:
-        x: Any
-        y: Any
+    def __init__(
+        self: Self,
+        data: Iterable | SupportsKeysAndGetitem[object, Value] = (),
+        /,
+        **kwargs: Value,
+    ) -> None:
+        x: str
+        y: Value
         self._reset()
         if isinstance(data, BaseNaming):
             self._dict = dict(data._dict)
@@ -96,9 +103,19 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     def pop(self: Self, key: object, /) -> Value: ...
 
     @overload
-    def pop(self: Self, key: object, default: Any, /) -> Any: ...
+    def pop(
+        self: Self,
+        key: object,
+        default: Value_,
+        /,
+    ) -> Value | Value_: ...
 
-    def pop(self: Self, key: object, default: Any = MISSING, /) -> Any:
+    def pop(
+        self: Self,
+        key: object,
+        default: Value_ | object = MISSING,
+        /,
+    ) -> Optional[Value | Value_]:
         try:
             if default is MISSING:
                 return self._dict.pop(str(key))
@@ -108,13 +125,23 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
             self._reset()
 
     @setdoc.basic
-    def setdefault(self: Self, key: object, default: Any = None, /) -> Value:
+    def setdefault(
+        self: Self,
+        key: object,
+        default: Value,
+        /,
+    ) -> Value:
         try:
             return self._dict.setdefault(str(key), default)
         finally:
             self._reset()
 
-    def update(self: Self, data: Any = (), /, **kwargs: Any) -> None:
+    def update(
+        self: Self,
+        data: Iterable | SupportsKeysAndGetitem[object, Value] = (),
+        /,
+        **kwargs: Value,
+    ) -> None:
         "This method updates the key-value-pairs."
         x: Any
         y: Any

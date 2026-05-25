@@ -4,7 +4,7 @@ from typing import *
 from namings.abc.BaseNamingABC import BaseNamingABC
 
 __all__ = ["FrozenNamingABC"]
-Value = TypeVar("Value")
+Value = TypeVar("Value", covariant=True)
 
 
 class FrozenNamingABC(BaseNamingABC[Value], collections.abc.Hashable):

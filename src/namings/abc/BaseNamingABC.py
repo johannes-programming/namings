@@ -1,13 +1,16 @@
+from __future__ import annotations
+
 import collections.abc
 import types
 from abc import abstractmethod
-from typing import *
+from typing import Any, Optional, Self, TypeVar
 
 import setdoc
 
 __all__ = ["BaseNamingABC"]
 
-Value = TypeVar("Value")
+Value = TypeVar("Value", covariant=True)
+Value_ = TypeVar("Value_")
 
 
 class BaseNamingABC(
@@ -17,7 +20,7 @@ class BaseNamingABC(
     __slots__ = ()
 
     @setdoc.basic
-    def __contains__(self: Self, other: Any, /) -> bool:
+    def __contains__(self: Self, other: object, /) -> bool:
         return other in self.items()
 
     @setdoc.basic
@@ -27,7 +30,7 @@ class BaseNamingABC(
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) == tuple(other)
+            return bool(tuple(self) == tuple(other))
         else:
             return NotImplemented
 
@@ -38,7 +41,7 @@ class BaseNamingABC(
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) >= tuple(other)
+            return bool(tuple(self) >= tuple(other))
         else:
             return NotImplemented
 
@@ -49,7 +52,7 @@ class BaseNamingABC(
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) > tuple(other)
+            return bool(tuple(self) > tuple(other))
         else:
             return NotImplemented
 
@@ -60,7 +63,7 @@ class BaseNamingABC(
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) <= tuple(other)
+            return bool(tuple(self) <= tuple(other))
         else:
             return NotImplemented
 
@@ -71,7 +74,7 @@ class BaseNamingABC(
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) < tuple(other)
+            return bool(tuple(self) < tuple(other))
         else:
             return NotImplemented
 
@@ -82,7 +85,7 @@ class BaseNamingABC(
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) != tuple(other)
+            return bool(tuple(self) != tuple(other))
         else:
             return NotImplemented
 
@@ -95,7 +98,7 @@ class BaseNamingABC(
     def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None: ...
 
     @setdoc.basic
-    def __iter__(self: Self) -> Iterable[tuple[str, Value]]:
+    def __iter__(self: Self) -> collections.abc.Iterable[tuple[str, Value]]:
         return iter(self.items())
 
     @setdoc.basic
@@ -104,17 +107,22 @@ class BaseNamingABC(
 
     @abstractmethod
     @setdoc.basic
-    def __or__(self: Self, other: Any, /) -> Self: ...
+    def __or__(self: Self, other: BaseNamingABC, /) -> Self: ...
 
     @setdoc.basic
     def __repr__(self: Self) -> str:
         return f"{type(self).__name__}({dict(self)})"
 
     @setdoc.basic
-    def __reversed__(self: Self) -> Iterable[tuple[str, Value]]:
+    def __reversed__(self: Self) -> collections.abc.Iterable[tuple[str, Value]]:
         return reversed(self.items())
 
-    def get(self: Self, key: object, default: Any = None, /) -> Any:
+    def get(
+        self: Self,
+        key: object,
+        default: Optional[Value_] = None,
+        /,
+    ) -> Value | Value_:
         "This method returns the value for an existing key or default for a not existing key."
         try:
             return self[key]
@@ -122,16 +130,16 @@ class BaseNamingABC(
             return default
 
     @abstractmethod
-    def keys(self: Self) -> tuple[str, ...]:
-        "This method returns an iterable of the keys."
+    def keys(self: Self) -> collections.abc.Sequence[str]:
+        "This method returns a sequence of the keys."
         ...
 
     @abstractmethod
-    def items(self: Self) -> tuple[tuple[str, Value], ...]:
-        "This method returns an iterable of the key-value-pairs."
+    def items(self: Self) -> collections.abc.Sequence[tuple[str, Value]]:
+        "This method returns a sequence of the items."
         ...
 
     @abstractmethod
-    def values(self: Self) -> tuple[Value, ...]:
-        "This method returns an iterable of the values."
+    def values(self: Self) -> collections.abc.Sequence[Value]:
+        "This method returns a sequence of the values."
         ...
