@@ -35,7 +35,9 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     @setdoc.basic
     def __init__(
         self: Self,
-        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        data: (
+            SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]]
+        ) = (),
         /,
         **kwargs: Value,
     ) -> None:
@@ -140,7 +142,9 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
 
     def update(
         self: Self,
-        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        data: (
+            SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]]
+        ) = (),
         /,
         **kwargs: Value,
     ) -> None:

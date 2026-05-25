@@ -37,14 +37,17 @@ class TestNotFrozen(unittest.TestCase):
         self.assertEqual(objA.setdefault("hello", "!"), "world")
         self.assertEqual(list(objA), [("hello", "world"), ("4", 2)])
         self.assertEqual(objA.setdefault("foo", 3.14), 3.14)
-        self.assertEqual(list(objA), [("hello", "world"), ("4", 2), ("foo", 3.14)])
+        self.assertEqual(
+            list(objA), [("hello", "world"), ("4", 2), ("foo", 3.14)]
+        )
 
     def test_update(self: Self) -> None:
         obj: Naming[float | int | set[object] | str]
         obj = Naming([("hello", "world"), (4, 2)])
         obj.update([("foo", "bar"), ("hello", 3.14)], baz=set())
         self.assertEqual(
-            list(obj), [("hello", 3.14), ("4", 2), ("foo", "bar"), ("baz", set())]
+            list(obj),
+            [("hello", 3.14), ("4", 2), ("foo", "bar"), ("baz", set())],
         )
 
     def test_dunder_delitem(self: Self) -> None:
@@ -65,7 +68,9 @@ class TestNotFrozen(unittest.TestCase):
         obj: Naming[int | str]
         obj = Naming([("hello", "world"), (4, 2)])
         obj |= [("foo", "bar"), ("hello", 3.14)]
-        self.assertEqual(list(obj), [("hello", 3.14), ("4", 2), ("foo", "bar")])
+        self.assertEqual(
+            list(obj), [("hello", 3.14), ("4", 2), ("foo", "bar")]
+        )
 
     def test_dunder_setitem(self: Self) -> None:
         objA: Naming[int | str]
@@ -73,7 +78,9 @@ class TestNotFrozen(unittest.TestCase):
         objA["hello"] = "!"
         self.assertEqual(list(objA), [("hello", "!"), ("4", 2)])
         objA["foo"] = "bar"
-        self.assertEqual(list(objA), [("hello", "!"), ("4", 2), ("foo", "bar")])
+        self.assertEqual(
+            list(objA), [("hello", "!"), ("4", 2), ("foo", "bar")]
+        )
 
 
 if __name__ == "__main__":

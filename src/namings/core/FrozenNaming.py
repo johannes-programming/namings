@@ -23,7 +23,9 @@ class FrozenNaming(BaseNaming[Value], FrozenNamingABC[Value]):
     @setdoc.basic
     def __init__(
         self: Self,
-        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        data: (
+            SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]]
+        ) = (),
         /,
         **kwargs: Value,
     ) -> None:

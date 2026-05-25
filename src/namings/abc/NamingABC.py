@@ -57,7 +57,9 @@ class NamingABC(BaseNamingABC[Value], Copyable):
     @abstractmethod
     def update(
         self: Self,
-        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        data: (
+            SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]]
+        ) = (),
         /,
         **kwargs: Value,
     ) -> None:

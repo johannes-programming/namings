@@ -2,7 +2,13 @@ from __future__ import annotations
 
 import types
 from abc import abstractmethod
-from collections.abc import Collection, Iterable, Iterator, Reversible, Sequence
+from collections.abc import (
+    Collection,
+    Iterable,
+    Iterator,
+    Reversible,
+    Sequence,
+)
 from typing import Any, Optional, Self, TypeVar
 
 import setdoc
@@ -66,7 +72,9 @@ class BaseNamingABC(
     @setdoc.basic
     def __init__(
         self: Self,
-        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        data: (
+            SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]]
+        ) = (),
         /,
         **kwargs: Value,
     ) -> None: ...
