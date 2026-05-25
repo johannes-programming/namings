@@ -9,7 +9,7 @@ from collections.abc import (
     Reversible,
     Sequence,
 )
-from typing import Any, Optional, Self, TypeVar
+from typing import Optional, Self, TypeVar
 
 import setdoc
 
@@ -145,16 +145,19 @@ class BaseNamingABC(
             return default
 
     @abstractmethod
+    @setdoc.basic
     def keys(self: Self) -> Sequence[str]:
         "This method returns a sequence of the keys."
         ...
 
     @abstractmethod
+    @setdoc.basic
     def items(self: Self) -> Sequence[tuple[str, Value]]:
         "This method returns a sequence of the items."
         ...
 
     @abstractmethod
+    @setdoc.basic
     def values(self: Self) -> Sequence[Value]:
         "This method returns a sequence of the values."
         ...

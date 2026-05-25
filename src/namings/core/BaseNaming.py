@@ -44,18 +44,21 @@ class BaseNaming(BaseNamingABC[Value]):
         "This method returns the value for an existing key or default for a not existing key."
         return self._dict.get(str(key), default)
 
+    @setdoc.basic
     def keys(self: Self) -> tuple[str, ...]:
         "This method returns an iterable of the keys."
         if self._keys is None:
             self._keys = tuple(self._dict.keys())
         return self._keys
 
+    @setdoc.basic
     def items(self: Self) -> tuple[tuple[str, Value], ...]:
         "This method returns an iterable of the key-value-pairs."
         if self._items is None:
             self._items = tuple(self._dict.items())
         return self._items
 
+    @setdoc.basic
     def values(self: Self) -> tuple[Value, ...]:
         "This method returns an iterable of the values."
         if self._values is None:

@@ -1,5 +1,5 @@
 from collections.abc import Iterable
-from typing import Any, Protocol, TypeVar
+from typing import Protocol, TypeVar
 
 import setdoc
 
