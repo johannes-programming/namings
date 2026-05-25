@@ -5,7 +5,6 @@ import setdoc
 from copyable import Copyable
 
 from namings.abc.BaseNamingABC import BaseNamingABC
-from namings.core.FrozenNaming import FrozenNaming
 from namings.typing.SupportsKeysAndGetitem import SupportsKeysAndGetitem
 
 __all__ = ["NamingABC"]
@@ -20,18 +19,18 @@ class NamingABC(BaseNamingABC[Value], Copyable):
 
     @abstractmethod
     @setdoc.basic
-    def __delitem__(self: Self, key: object) -> None: ...
+    def __delitem__(self: Self, key: object, /) -> None: ...
 
     __hash__: Any
     __hash__ = None
 
     @abstractmethod
     @setdoc.basic
-    def __ior__(self: Self, other: BaseNamingABC[Value]) -> Self: ...
+    def __ior__(self: Self, other: BaseNamingABC[Value], /) -> Self: ...
 
     @abstractmethod
     @setdoc.basic
-    def __setitem__(self: Self, key: object, value: Value) -> None: ...
+    def __setitem__(self: Self, key: object, value: Value, /) -> None: ...
 
     @abstractmethod
     def clear(self: Self) -> None: ...

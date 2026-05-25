@@ -19,14 +19,11 @@ Features
 ``namings.abc``
 ^^^^^^^^^^^^^^^
 
-``class namings.abc.BaseNamingABC.BaseNamingABC(data: Any = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``class namings.abc.BaseNamingABC.BaseNamingABC[Value](data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (), /, **kwargs: Value)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``__slots__ = ()``
-""""""""""""""""""
-
-``__contains__(other: Any) -> bool``
-""""""""""""""""""""""""""""""""""""
+``__contains__(other: object, /) -> bool``
+""""""""""""""""""""""""""""""""""""""""""
 
 This magic method implements ``other in self``.
 Here, it establishes a standard for all descendent classes.
@@ -37,8 +34,8 @@ It should only ever be overwritten with an extensional equivalent.
     def __contains__(self: Self, other: Any, /) -> bool:
         return other in self.items()
 
-``__eq__(other: object) -> types.NotImplementedType | bool``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``__eq__(other: object, /) -> types.NotImplementedType | bool``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This magic method implements ``self == other``.
 Here, it establishes a standard for all descendent classes.
@@ -52,12 +49,12 @@ It should only ever be overwritten with an extensional equivalent.
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) == tuple(other)
+            return bool(tuple(self) == tuple(other))
         else:
             return NotImplemented
 
-``__ge__(other: object) -> types.NotImplementedType | bool``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``__ge__(other: object, /) -> types.NotImplementedType | bool``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This magic method implements ``self >= other``.
 Here, it establishes a standard for all descendent classes.
@@ -71,17 +68,17 @@ It should only ever be overwritten with an extensional equivalent.
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) >= tuple(other)
+            return bool(tuple(self) >= tuple(other))
         else:
             return NotImplemented
 
-``__getitem__(key: object) -> Any``
-"""""""""""""""""""""""""""""""""""
+``__getitem__(key: object, /) -> Value``
+""""""""""""""""""""""""""""""""""""""""
 
 This abstract magic method implements ``self[key]``.
 
-``__gt__(other: object) -> types.NotImplementedType | bool``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``__gt__(other: object, /) -> types.NotImplementedType | bool``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This magic method implements ``self > other``.
 Here, it establishes a standard for all descendent classes.
@@ -95,11 +92,11 @@ It should only ever be overwritten with an extensional equivalent.
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) > tuple(other)
+            return bool(tuple(self) > tuple(other))
         else:
             return NotImplemented
 
-``__iter__() -> Iterable[tuple[str, Value]]``
+``__iter__() -> Iterator[tuple[str, Value]]``
 """""""""""""""""""""""""""""""""""""""""""""
 
 .. code-block:: python
@@ -107,8 +104,8 @@ It should only ever be overwritten with an extensional equivalent.
     def __iter__(self: Self) -> Iterable[tuple[str, Value]]:
         return iter(self.items())
 
-``__le__(other: object) -> types.NotImplementedType | bool``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``__le__(other: object, /) -> types.NotImplementedType | bool``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This magic method implements ``self <= other``.
 Here, it establishes a standard for all descendent classes.
@@ -122,7 +119,7 @@ It should only ever be overwritten with an extensional equivalent.
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) <= tuple(other)
+            return bool(tuple(self) <= tuple(other))
         else:
             return NotImplemented
 
@@ -134,8 +131,8 @@ It should only ever be overwritten with an extensional equivalent.
     def __len__(self: Self) -> int:
         return len(self.items())
 
-``__lt__(other: object) -> types.NotImplementedType | bool``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``__lt__(other: object, /) -> types.NotImplementedType | bool``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This magic method implements ``self < other``.
 Here, it establishes a standard for all descendent classes.
@@ -149,12 +146,12 @@ It should only ever be overwritten with an extensional equivalent.
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) < tuple(other)
+            return bool(tuple(self) < tuple(other))
         else:
             return NotImplemented
 
-``__ne__(other: object) -> types.NotImplementedType | bool``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+``__ne__(other: object, /) -> types.NotImplementedType | bool``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This magic method implements ``self != other``.
 Here, it establishes a standard for all descendent classes.
@@ -168,12 +165,12 @@ It should only ever be overwritten with an extensional equivalent.
         /,
     ) -> types.NotImplementedType | bool:
         if isinstance(other, BaseNamingABC):
-            return tuple(self) != tuple(other)
+            return bool(tuple(self) != tuple(other))
         else:
             return NotImplemented
 
-``__or__(other: Any) -> Self``
-""""""""""""""""""""""""""""""
+``__or__(BaseNamingABC[Value], /) -> Self``
+"""""""""""""""""""""""""""""""""""""""""""
 
 This abstract magic method implements ``self | other``.
 
@@ -201,8 +198,8 @@ It should only ever be overwritten with an extensional equivalent.
     def __reversed__(self: Self) -> Iterable[tuple[str, Value]]:
         return reversed(self.items())
 
-``get(key: object, default: Any = None, /) -> Any``
-"""""""""""""""""""""""""""""""""""""""""""""""""""
+``get(key: object, default: Optional[Value_] = None, /) -> Optional[Value | Value_]``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This method returns the value under the given ``key`` if present,
 otherwise it returns ``default``
@@ -218,6 +215,57 @@ It should only ever be overwritten with an extensional equivalent.
         except KeyError:
             return default
 
+``keys() -> Sequence[str, ...]``
+""""""""""""""""""""""""""""""""
+
+``items(self: Self) -> Sequence[tuple[str, Value], ...]``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``values(self: Self) -> Sequence[Value, ...]``
+""""""""""""""""""""""""""""""""""""""""""""""
+
+``class namings.abc.FrozenNamingABC.FrozenNamingABC[Value](data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (), /, **kwargs: Value)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This class inherits from ``BaseNamingABC[Value]`` and ``collections.abc.Hashable``.
+
+``class namings.abc.NamingABC.NamingABC[Value](data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (), /, **kwargs: Value)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``__delitem__(key: object, /) -> None``
+"""""""""""""""""""""""""""""""""""""""
+
+``__hash__: Any = None``
+""""""""""""""""""""""""
+
+``__ior__(other: BaseNamingABC[Value], /) -> Self``
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``__setitem__(key: object, value: Value, /) -> None``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``clear() -> None``
+"""""""""""""""""""
+
+``pop(key: object, /) -> Value`` ``pop(key: object, default: Value_, /) -> Value | Value_``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``setdefault(key: object, default: Value, /) -> Value``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``update(data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (), /, **kwargs: Value) -> None``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+``namings.core``
+^^^^^^^^^^^^^^^^
+
+The classes in this submodule can also be imported directly from ``namings``.
+
+``class namings.core.BaseNamingABC.BaseNamingABC[Value](data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (), /, **kwargs: Value)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This abstract base class is a common ancestor of ``FrozenNaming`` and ``Naming``.
+
 ``keys() -> tuple[str, ...]``
 """""""""""""""""""""""""""""
 
@@ -227,56 +275,16 @@ It should only ever be overwritten with an extensional equivalent.
 ``values(self: Self) -> tuple[Value, ...]``
 """""""""""""""""""""""""""""""""""""""""""
 
-``class namings.abc.FrozenNamingABC.FrozenNamingABC(data: Any = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-``class namings.abc.NamingABC.NamingABC(data: Any = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-``__delitem__(key: object) -> None``
-""""""""""""""""""""""""""""""""""""
-
-``__hash__: Any = None``
-""""""""""""""""""""""""
-
-``__ior__(other: Any) -> Self``
-"""""""""""""""""""""""""""""""
-
-``__setitem__(key: object, value: Any) -> None``
-""""""""""""""""""""""""""""""""""""""""""""""""
-
-``clear() -> None``
-"""""""""""""""""""
-
-``pop(key: object, /) -> Value`` ``pop(key: object, default: Any, /) -> Any``
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-``setdefault(key: object, default: Any = None, /) -> Any``
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-``update(data: Any = (), /, **kwargs: Any) -> None``
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-``namings.core``
-^^^^^^^^^^^^^^^^
-
-The classes in this submodule can also be imported directly from ``namings``.
-
-``class namings.core.BaseNaming.BaseNaming(data: Any = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This abstract base class is a common ancestor of ``FrozenNaming`` and ``Naming``.
-
-``class namings.core.FrozenNaming.FrozenNaming(data: Any = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``class namings.core.FrozenNaming.FrozenNaming[Value](data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (), /, **kwargs: Value)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This immutable class is a type of collection
 
 - that coerces keys to be strings
 - and that acts similarly to a sequence of its items.
 
-``class namings.core.Naming.Naming(data: Any = (), /, **kwargs: Any)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``class namings.core.Naming.Naming[Value](data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (), /, **kwargs: Value)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This mutable class is a type of collection
 

@@ -19,7 +19,7 @@ class BaseNaming(BaseNamingABC[Value]):
     _values: Optional[tuple[Value, ...]]
 
     @setdoc.basic
-    def __getitem__(self: Self, key: object) -> Value:
+    def __getitem__(self: Self, key: object, /) -> Value:
         x: str
         x = str(key)
         try:

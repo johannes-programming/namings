@@ -22,7 +22,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     _dict: dict[str, Value]
 
     @setdoc.basic
-    def __delitem__(self: Self, key: object) -> None:
+    def __delitem__(self: Self, key: object, /) -> None:
         try:
             del self._dict[str(key)]
         except KeyError:
@@ -54,27 +54,27 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
             self._dict[str(x)] = y
 
     @setdoc.basic
-    def __ior__(self: Self, other: Any) -> Self:
+    def __ior__(self: Self, other: BaseNamingABC[Value], /) -> Self:
         try:
             if isinstance(other, BaseNaming):
                 self._dict |= other._dict
             elif isinstance(other, BaseNamingABC):
                 self._dict |= other
             else:
-                self._dict |= digest_data(other)
+                self._dict |= dict(other)
             return self
         finally:
             self._reset()
 
     @setdoc.basic
-    def __or__(self: Self, other: Any) -> Self:
+    def __or__(self: Self, other: BaseNamingABC[Value], /) -> Self:
         ans: Self
         ans = self.copy()
         ans.__ior__(other)
         return ans
 
     @setdoc.basic
-    def __setitem__(self: Self, key: object, value: Any) -> None:
+    def __setitem__(self: Self, key: object, value: Value, /) -> None:
         try:
             self._dict[str(key)] = value
         finally:
