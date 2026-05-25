@@ -1,5 +1,5 @@
 from collections.abc import Iterable
-from typing import Any, Optional, Self, TypeVar, overload
+from typing import Any, Final, Optional, Self, TypeVar, cast, overload
 
 import setdoc
 
@@ -11,7 +11,7 @@ from namings.typing.SupportsKeysAndGetitem import SupportsKeysAndGetitem
 
 __all__ = ["Naming"]
 
-MISSING = object()
+MISSING: Final[object] = object()
 Value = TypeVar("Value")
 Value_ = TypeVar("Value_")
 
@@ -121,8 +121,8 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
         try:
             if default is MISSING:
                 return self._dict.pop(str(key))
-            ans = self._dict.pop(str(key), default)
-            return ans
+            else:
+                return self._dict.pop(str(key), cast(Value_, default))
         finally:
             self._reset()
 

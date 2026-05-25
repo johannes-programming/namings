@@ -59,7 +59,7 @@ class BaseNamingABC(
             return NotImplemented
 
     @abstractmethod
-    @setdoc.basic
+    # @setdoc.basic
     def __getitem__(self: Self, key: object, /) -> Value: ...
 
     @abstractmethod
