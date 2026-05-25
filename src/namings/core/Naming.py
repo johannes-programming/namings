@@ -34,7 +34,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
     @setdoc.basic
     def __init__(
         self: Self,
-        data: Iterable | SupportsKeysAndGetitem[object, Value] = (),
+        data: Iterable | SupportsKeysAndGetitem[Value] = (),
         /,
         **kwargs: Value,
     ) -> None:
@@ -116,11 +116,12 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
         default: Value_ | object = MISSING,
         /,
     ) -> Optional[Value | Value_]:
+        ans: Any
         try:
             if default is MISSING:
                 return self._dict.pop(str(key))
-            else:
-                return self._dict.pop(str(key), default)
+            ans = self._dict.pop(str(key), default)
+            return ans
         finally:
             self._reset()
 
@@ -138,7 +139,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
 
     def update(
         self: Self,
-        data: Iterable | SupportsKeysAndGetitem[object, Value] = (),
+        data: Iterable | SupportsKeysAndGetitem[Value] = (),
         /,
         **kwargs: Value,
     ) -> None:

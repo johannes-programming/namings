@@ -5,6 +5,8 @@ import setdoc
 from copyable import Copyable
 
 from namings.abc.BaseNamingABC import BaseNamingABC
+from namings.core.FrozenNaming import FrozenNaming
+from namings.typing.SupportsKeysAndGetitem import SupportsKeysAndGetitem
 
 __all__ = ["NamingABC"]
 
@@ -53,6 +55,11 @@ class NamingABC(BaseNamingABC[Value], Copyable):
     def setdefault(self: Self, key: object, default: Value, /) -> Value: ...
 
     @abstractmethod
-    def update(self: Self, data: BaseNamingABC[Value] = (), /, **kwargs: Value) -> None:
+    def update(
+        self: Self,
+        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        /,
+        **kwargs: Value,
+    ) -> None:
         "This method updates the key-value-pairs."
         ...

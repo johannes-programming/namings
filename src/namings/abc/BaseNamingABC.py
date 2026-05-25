@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-import collections.abc
 import types
 from abc import abstractmethod
+from collections.abc import Collection, Iterable, Reversible, Sequence
 from typing import Any, Optional, Self, TypeVar
 
 import setdoc
+
+from namings.typing.SupportsKeysAndGetitem import SupportsKeysAndGetitem
 
 __all__ = ["BaseNamingABC"]
 
@@ -14,8 +16,8 @@ Value_ = TypeVar("Value_")
 
 
 class BaseNamingABC(
-    collections.abc.Collection[tuple[str, Value]],
-    collections.abc.Reversible,
+    Collection[tuple[str, Value]],
+    Reversible,
 ):
     __slots__ = ()
 
@@ -56,6 +58,23 @@ class BaseNamingABC(
         else:
             return NotImplemented
 
+    @abstractmethod
+    @setdoc.basic
+    def __getitem__(self: Self, key: object, /) -> Value: ...
+
+    @abstractmethod
+    @setdoc.basic
+    def __init__(
+        self: Self,
+        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
+        /,
+        **kwargs: Value,
+    ) -> None: ...
+
+    @setdoc.basic
+    def __iter__(self: Self) -> Iterable[tuple[str, Value]]:
+        return iter(self.items())
+
     @setdoc.basic
     def __le__(
         self: Self,
@@ -66,6 +85,10 @@ class BaseNamingABC(
             return bool(tuple(self) <= tuple(other))
         else:
             return NotImplemented
+
+    @setdoc.basic
+    def __len__(self: Self) -> int:
+        return len(self.items())
 
     @setdoc.basic
     def __lt__(
@@ -91,22 +114,6 @@ class BaseNamingABC(
 
     @abstractmethod
     @setdoc.basic
-    def __getitem__(self: Self, key: object, /) -> Value: ...
-
-    @abstractmethod
-    @setdoc.basic
-    def __init__(self: Self, data: Any = (), /, **kwargs: Any) -> None: ...
-
-    @setdoc.basic
-    def __iter__(self: Self) -> collections.abc.Iterable[tuple[str, Value]]:
-        return iter(self.items())
-
-    @setdoc.basic
-    def __len__(self: Self) -> int:
-        return len(self.items())
-
-    @abstractmethod
-    @setdoc.basic
     def __or__(self: Self, other: BaseNamingABC, /) -> Self: ...
 
     @setdoc.basic
@@ -114,7 +121,7 @@ class BaseNamingABC(
         return f"{type(self).__name__}({dict(self)})"
 
     @setdoc.basic
-    def __reversed__(self: Self) -> collections.abc.Iterable[tuple[str, Value]]:
+    def __reversed__(self: Self) -> Iterable[tuple[str, Value]]:
         return reversed(self.items())
 
     def get(
@@ -122,7 +129,7 @@ class BaseNamingABC(
         key: object,
         default: Optional[Value_] = None,
         /,
-    ) -> Value | Value_:
+    ) -> Optional[Value | Value_]:
         "This method returns the value for an existing key or default for a not existing key."
         try:
             return self[key]
@@ -130,16 +137,16 @@ class BaseNamingABC(
             return default
 
     @abstractmethod
-    def keys(self: Self) -> collections.abc.Sequence[str]:
+    def keys(self: Self) -> Sequence[str]:
         "This method returns a sequence of the keys."
         ...
 
     @abstractmethod
-    def items(self: Self) -> collections.abc.Sequence[tuple[str, Value]]:
+    def items(self: Self) -> Sequence[tuple[str, Value]]:
         "This method returns a sequence of the items."
         ...
 
     @abstractmethod
-    def values(self: Self) -> collections.abc.Sequence[Value]:
+    def values(self: Self) -> Sequence[Value]:
         "This method returns a sequence of the values."
         ...

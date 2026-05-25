@@ -6,12 +6,11 @@ import setdoc
 __all__ = ["SupportsKeysAndGetitem"]
 
 
-Key = TypeVar("Key", covariant=True)
 Value = TypeVar("Value", covariant=True)
 
 
-class SupportsKeysAndGetitem(Protocol[Key, Value]):
+class SupportsKeysAndGetitem(Protocol[Value]):
     @setdoc.basic
-    def __getitem__(self, key: Any, /) -> Value: ...
-    @setdoc.basic
-    def keys(self) -> Iterable[Key]: ...
+    def __getitem__(self, key: object, /) -> Value: ...
+
+    def keys(self) -> Iterable[str]: ...
