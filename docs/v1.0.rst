@@ -13,6 +13,11 @@ Open your terminal and run:
 
     pip install namings
 
+Typing
+------
+
+The typing conforms strictly to ``mypy``.
+
 Features
 --------
 
