@@ -43,4 +43,4 @@ files = [
     ".",
 ]
 python_version = "3.11"
-strict = false
+strict = true
