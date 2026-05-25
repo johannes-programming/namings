@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import types
 from abc import abstractmethod
-from collections.abc import Collection, Iterable, Reversible, Sequence
+from collections.abc import Collection, Iterable, Iterator, Reversible, Sequence
 from typing import Any, Optional, Self, TypeVar
 
 import setdoc
@@ -17,7 +17,7 @@ Value_ = TypeVar("Value_")
 
 class BaseNamingABC(
     Collection[tuple[str, Value]],
-    Reversible[Value],
+    Reversible[tuple[str, Value]],
 ):
     __slots__ = ()
 
@@ -59,7 +59,7 @@ class BaseNamingABC(
             return NotImplemented
 
     @abstractmethod
-    # @setdoc.basic
+    @setdoc.basic
     def __getitem__(self: Self, key: object, /) -> Value: ...
 
     @abstractmethod
@@ -72,7 +72,7 @@ class BaseNamingABC(
     ) -> None: ...
 
     @setdoc.basic
-    def __iter__(self: Self) -> Iterable[tuple[str, Value]]:
+    def __iter__(self: Self) -> Iterator[tuple[str, Value]]:
         return iter(self.items())
 
     @setdoc.basic
@@ -121,7 +121,7 @@ class BaseNamingABC(
         return f"{type(self).__name__}({dict(self)})"
 
     @setdoc.basic
-    def __reversed__(self: Self) -> Iterable[tuple[str, Value]]:
+    def __reversed__(self: Self) -> Iterator[tuple[str, Value]]:
         return reversed(self.items())
 
     def get(
