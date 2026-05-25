@@ -1,5 +1,6 @@
 from abc import abstractmethod
-from typing import *
+from collections.abc import Iterable
+from typing import Any, Final, Self, TypeVar, overload
 
 import setdoc
 from copyable import Copyable
@@ -9,7 +10,7 @@ from namings.typing.SupportsKeysAndGetitem import SupportsKeysAndGetitem
 
 __all__ = ["NamingABC"]
 
-MISSING = object()
+MISSING: Final[object] = object()
 Value = TypeVar("Value")
 Value_ = TypeVar("Value_")
 
