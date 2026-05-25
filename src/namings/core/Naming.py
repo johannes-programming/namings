@@ -140,7 +140,7 @@ class Naming(BaseNaming[Value], NamingABC[Value]):
 
     def update(
         self: Self,
-        data: Iterable[tuple[object, Value]] | SupportsKeysAndGetitem[Value] = (),
+        data: SupportsKeysAndGetitem[Value] | Iterable[tuple[object, Value]] = (),
         /,
         **kwargs: Value,
     ) -> None:
