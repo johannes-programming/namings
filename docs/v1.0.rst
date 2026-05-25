@@ -296,6 +296,20 @@ This project can be tested through its ``test`` function.
     import namings.tests
     namings.tests.test()
 
+``namings.typing``
+^^^^^^^^^^^^^^^^^^
+
+``class namings.typing.SupportsKeysAndGetitem.SupportsKeysAndGetitem[Value]``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This protocol is used for typing.
+
+``__getitem__(key: object, /) -> Value``
+""""""""""""""""""""""""""""""""""""""""
+
+``keys() -> Iterable[object]``
+""""""""""""""""""""""""""""""
+
 License
 -------
 
