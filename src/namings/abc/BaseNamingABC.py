@@ -146,18 +146,12 @@ class BaseNamingABC(
 
     @abstractmethod
     @setdoc.basic
-    def keys(self: Self) -> Sequence[str]:
-        "This method returns a sequence of the keys."
-        ...
+    def keys(self: Self) -> Sequence[str]: ...
 
     @abstractmethod
     @setdoc.basic
-    def items(self: Self) -> Sequence[tuple[str, Value]]:
-        "This method returns a sequence of the items."
-        ...
+    def items(self: Self) -> Sequence[tuple[str, Value]]: ...
 
     @abstractmethod
     @setdoc.basic
-    def values(self: Self) -> Sequence[Value]:
-        "This method returns a sequence of the values."
-        ...
+    def values(self: Self) -> Sequence[Value]: ...
